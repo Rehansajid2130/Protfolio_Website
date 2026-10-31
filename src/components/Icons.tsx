@@ -21,6 +21,14 @@ export const ArrowUpIcon: React.FC<IconProps> = ({ size = 16, className = '', st
   </svg>
 );
 
+export const DownloadIcon: React.FC<IconProps> = ({ size = 16, className = '', strokeWidth = 1.5 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline points="7 10 12 15 17 10" />
+    <line x1="12" x2="12" y1="15" y2="3" />
+  </svg>
+);
+
 export const MenuIcon: React.FC<IconProps> = ({ size = 20, className = '', strokeWidth = 1.5 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
     <line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="18" y2="18" />
@@ -69,6 +77,12 @@ export const CheckIcon: React.FC<IconProps> = ({ size = 16, className = '', stro
   </svg>
 );
 
+export const MessageSquareIcon: React.FC<IconProps> = ({ size = 16, className = '', strokeWidth = 1.5 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
 export const GithubIcon: React.FC<{ size?: number; className?: string }> = ({ size = 16, className = '' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
     <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
@@ -84,9 +98,16 @@ export const LinkedinIcon: React.FC<{ size?: number; className?: string }> = ({ 
   </svg>
 );
 
-export const TwitterIcon: React.FC<{ size?: number; className?: string }> = ({ size = 16, className = '' }) => (
+export const FiverrIcon: React.FC<{ size?: number; className?: string }> = ({ size = 16, className = '' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-    <path d="M4 4l11.733 16h4.267l-11.733-16z" />
-    <path d="M4 20l6.768-6.768m2.464-2.464l6.768-6.768" />
+    <circle cx="12" cy="12" r="10" />
+    <path d="M8 10h4v6M14 10v6M10 13h4" />
+  </svg>
+);
+
+export const FreelancerIcon: React.FC<{ size?: number; className?: string }> = ({ size = 16, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M14 3l-8 7 4 10 9-17z" />
+    <path d="M6 10l12-3-4 8" />
   </svg>
 );

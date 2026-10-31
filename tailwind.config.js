@@ -27,8 +27,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Familjen Grotesk"', 'system-ui', 'sans-serif'],
-        sans: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
+        display: ['"Archivo"', '"Familjen Grotesk"', 'system-ui', 'sans-serif'],
+        sans: ['"Inter"', '"Instrument Sans"', 'system-ui', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
       },
       borderRadius: {

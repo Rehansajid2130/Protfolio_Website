@@ -6,135 +6,47 @@ import {
   CheckCircleIcon,
   GithubIcon,
 } from './Icons.tsx';
-
-interface Project {
-  id: string;
-  title: string;
-  tagline: string;
-  year: string;
-  tags: string[];
-  metrics: string;
-  problem: string;
-  solution: string;
-  result: string;
-  demoUrl?: string;
-  githubUrl?: string;
-  visualPreview: {
-    badge: string;
-    stats: { label: string; value: string }[];
-  };
-}
-
-const projects: Project[] = [
-  {
-    id: 'talentflow',
-    title: 'TalentFlow',
-    tagline: 'High-concurrency recruitment platform with virtualized Kanban pipelines and live presence.',
-    year: '2025',
-    tags: ['React 19', 'TypeScript', 'TanStack Virtual', 'Tailwind CSS'],
-    metrics: '82% lower memory footprint, 60fps at 5,000+ cards',
-    problem:
-      'The legacy recruitment dashboard choked on pipelines with over 1,500 active candidates, causing 2-3 second UI freezes during drag-and-drop status changes.',
-    solution:
-      'Engineered a windowed Kanban column architecture using TanStack Virtual and optimistic state updates. Decoupled drag physics from DOM manipulation using pointer events.',
-    result:
-      'Render time dropped from 3,200ms to 14ms. Supports 5,000+ candidates simultaneously without frame drops.',
-    demoUrl: 'https://example.com/talentflow',
-    githubUrl: 'https://github.com/rehan-dev/talentflow',
-    visualPreview: {
-      badge: 'Virtualized Pipeline',
-      stats: [
-        { label: 'Render Latency', value: '14ms' },
-        { label: 'DOM Nodes', value: '180 max' },
-      ],
-    },
-  },
-  {
-    id: 'kite-telemetry',
-    title: 'Kite Telemetry',
-    tagline: 'High-frequency timeseries visualization engine for cloud infrastructure monitoring.',
-    year: '2025',
-    tags: ['React', 'TypeScript', 'HTML5 Canvas', 'Web Workers'],
-    metrics: '60fps under 10k datapoints/sec live ingest',
-    problem:
-      'SVG charts on the monitoring dashboard caused severe main-thread lag when streaming live memory and network telemetry from 16 cluster nodes.',
-    solution:
-      'Built a custom double-buffered HTML5 Canvas renderer with data processing offloaded to Web Workers via SharedArrayBuffers, leaving the main thread completely free for UI interactions.',
-    result:
-      'Cut client CPU utilization by 40% while quadrupling the streaming data density.',
-    demoUrl: 'https://example.com/kite',
-    githubUrl: 'https://github.com/rehan-dev/kite-telemetry',
-    visualPreview: {
-      badge: 'Off-Thread Canvas',
-      stats: [
-        { label: 'Throughput', value: '10k pts/s' },
-        { label: 'CPU Load', value: '-40%' },
-      ],
-    },
-  },
-  {
-    id: 'doculayer',
-    title: 'DocuLayer Design System',
-    tagline: 'WCAG 2.1 AA certified UI library with multi-tenant token theming.',
-    year: '2024',
-    tags: ['React', 'TypeScript', 'A11y', 'Tailwind Tokens'],
-    metrics: '100% WCAG AA compliance across 36 core components',
-    problem:
-      'Four separate engineering teams were building redundant UI elements with inconsistent keyboard navigation, failing enterprise accessibility audits.',
-    solution:
-      'Designed a composable, headless component foundation with strict focus trapping, ARIA roles, and automated CI accessibility testing using axe-core.',
-    result:
-      'Passed third-party audit with zero violations. Adopted by 24 internal micro-frontends, cutting feature UI delivery time by half.',
-    demoUrl: 'https://example.com/doculayer',
-    githubUrl: 'https://github.com/rehan-dev/doculayer',
-    visualPreview: {
-      badge: 'Zero A11y Violations',
-      stats: [
-        { label: 'Components', value: '36' },
-        { label: 'Audit Score', value: '100%' },
-      ],
-    },
-  },
-];
+import { projects, Project } from '../data/projects.ts';
 
 export const Projects: React.FC = () => {
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
 
   return (
-    <section id="projects" className="py-24 md:py-32 bg-paper border-t border-b border-line">
+    <section id="work" className="py-24 md:py-32 bg-paper border-t border-b border-line">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-        {/* Section Header */}
+        {/* Section Header per Section 5 */}
         <div className="max-w-2xl mb-16 space-y-3">
           <span className="font-mono text-xs uppercase tracking-wider text-sky-700 font-medium">
-            01 / Production Systems
+            01 / Work
           </span>
           <h2 className="text-fluid-h2 font-display font-semibold text-ink tracking-tight">
-            Selected engineering work.
+            Selected projects.
           </h2>
           <p className="text-base text-ink-soft">
-            Real production challenges, architecture decisions, and measured outcomes. No hypothetical prototypes.
+            A few things I&apos;ve built, with what I did and how.
           </p>
         </div>
 
-        {/* Project Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Project Grid (2 major projects per Section 5 guidelines: "Two good ones beat three weak ones") */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           {projects.map((project) => (
             <article
-              key={project.id}
-              className="group bg-white rounded-md border border-line p-6 flex flex-col justify-between transition-all duration-200 hover:border-sky-300 hover:shadow-card"
+              key={project.slug}
+              className="group bg-white rounded-md border border-line p-7 flex flex-col justify-between transition-all duration-200 hover:border-sky-300 hover:shadow-card cursor-pointer"
+              onClick={() => setActiveModalProject(project)}
             >
               <div>
-                {/* Visual Preview Panel */}
-                <div className="w-full aspect-[16/10] bg-sky-50 rounded-sm border border-sky-100 p-4 mb-6 flex flex-col justify-between overflow-hidden relative">
+                {/* Visual Preview Frame */}
+                <div className="w-full aspect-[16/10] bg-sky-50 rounded-sm border border-sky-100 p-5 mb-6 flex flex-col justify-between overflow-hidden relative group-hover:border-sky-300 transition-colors">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[11px] font-medium text-sky-700 bg-sky-100 px-2 py-0.5 rounded-sm">
-                      {project.visualPreview.badge}
+                    <span className="font-mono text-[11px] font-medium text-sky-700 bg-sky-100 px-2.5 py-1 rounded-sm">
+                      {project.badge}
                     </span>
                     <span className="font-mono text-xs text-ink-soft">{project.year}</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 pt-4 border-t border-sky-100">
-                    {project.visualPreview.stats.map((stat) => (
+                  <div className="grid grid-cols-2 gap-3 pt-4 border-t border-sky-100">
+                    {project.stats.map((stat) => (
                       <div key={stat.label}>
                         <div className="text-[10px] font-mono text-ink-soft uppercase">{stat.label}</div>
                         <div className="font-display text-lg font-semibold text-ink">{stat.value}</div>
@@ -142,13 +54,13 @@ export const Projects: React.FC = () => {
                     ))}
                   </div>
 
-                  {/* Corner indicator */}
-                  <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-sky-100 rounded-full opacity-40 group-hover:scale-125 transition-transform duration-300" />
+                  {/* Corner aesthetic accent */}
+                  <div className="absolute -bottom-8 -right-8 w-20 h-20 bg-sky-200/50 rounded-full blur-sm group-hover:scale-125 transition-transform duration-300 pointer-events-none" />
                 </div>
 
-                {/* Tags in Mono per style guide */}
-                <div className="flex flex-wrap gap-1.5 mb-3">
-                  {project.tags.map((tag) => (
+                {/* Stack Tags in Mono */}
+                <div className="flex flex-wrap gap-1.5 mb-3.5">
+                  {project.stack.map((tag) => (
                     <span
                       key={tag}
                       className="px-2 py-0.5 bg-sky-100 text-sky-700 font-mono text-[11px] font-medium rounded-sm"
@@ -158,47 +70,51 @@ export const Projects: React.FC = () => {
                   ))}
                 </div>
 
-                {/* Project Title and Tagline */}
-                <h3 className="font-display font-semibold text-xl text-ink group-hover:text-sky-700 transition-colors flex items-center justify-between">
+                {/* Title & Arrow */}
+                <h3 className="font-display font-semibold text-2xl text-ink group-hover:text-sky-700 transition-colors flex items-center justify-between">
                   <span>{project.title}</span>
                   <ArrowUpRightIcon
-                    size={18}
+                    size={20}
                     strokeWidth={1.5}
-                    className="text-ink-soft group-hover:text-sky-700 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                    className="text-ink-soft group-hover:text-sky-700 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
                   />
                 </h3>
-                <p className="text-sm text-ink-soft mt-2 leading-relaxed">
+
+                <p className="text-xs font-mono text-ink-soft mt-1">
+                  {project.context} &bull; {project.role}
+                </p>
+
+                <p className="text-sm text-ink-soft mt-3 leading-relaxed">
                   {project.tagline}
                 </p>
               </div>
 
               {/* Bottom Card Actions */}
               <div className="pt-6 mt-6 border-t border-line flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={() => setActiveModalProject(project)}
-                  className="text-xs font-mono font-medium text-sky-700 hover:text-ink transition-colors flex items-center gap-1 focus-visible:ring-2"
+                <span className="text-xs font-mono font-medium text-sky-700 group-hover:text-ink transition-colors flex items-center gap-1">
+                  View case study &rarr;
+                </span>
+                <div
+                  className="flex items-center gap-3 text-ink-soft"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  Read case study &rarr;
-                </button>
-                <div className="flex items-center gap-3 text-ink-soft">
-                  {project.githubUrl && (
+                  {project.links.github && (
                     <a
-                      href={project.githubUrl}
+                      href={project.links.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-ink transition-colors"
+                      className="hover:text-ink transition-colors p-1"
                       aria-label={`${project.title} GitHub repository`}
                     >
                       <GithubIcon size={16} />
                     </a>
                   )}
-                  {project.demoUrl && (
+                  {project.links.live && (
                     <a
-                      href={project.demoUrl}
+                      href={project.links.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-ink transition-colors"
+                      className="hover:text-ink transition-colors p-1"
                       aria-label={`${project.title} live demo`}
                     >
                       <ExternalLinkIcon size={16} strokeWidth={1.5} />
@@ -209,76 +125,124 @@ export const Projects: React.FC = () => {
             </article>
           ))}
         </div>
+
+        {/* Footer of section per Section 5 */}
+        <div className="mt-12 pt-8 border-t border-line flex items-center justify-between text-xs font-mono">
+          <span className="text-ink-soft">Have custom architectural requirements?</span>
+          <a
+            href="https://github.com/rehan-dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sky-700 hover:text-ink transition-colors inline-flex items-center gap-1.5 font-medium"
+          >
+            <span>See all repositories on GitHub</span>
+            <ArrowUpRightIcon size={13} />
+          </a>
+        </div>
       </div>
 
-      {/* Case Study Modal (Accessible, escape-key friendly) */}
+      {/* Case Study Deep Dive Modal */}
       {activeModalProject && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="case-study-title"
+          onClick={() => setActiveModalProject(null)}
         >
-          <div className="bg-white rounded-md border border-line max-w-2xl w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto shadow-card relative">
-            <div className="flex items-start justify-between pb-4 border-b border-line">
+          <div
+            className="bg-white rounded-md border border-line max-w-2xl w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto shadow-card relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between pb-5 border-b border-line">
               <div>
-                <span className="font-mono text-xs text-sky-700 uppercase">
-                  Case Study &bull; {activeModalProject.year}
+                <span className="font-mono text-xs text-sky-700 uppercase tracking-wider">
+                  {activeModalProject.context} &bull; {activeModalProject.year}
                 </span>
-                <h3 id="case-study-title" className="font-display text-2xl font-semibold text-ink mt-1">
+                <h3 id="case-study-title" className="font-display text-2xl md:text-3xl font-semibold text-ink mt-1">
                   {activeModalProject.title}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setActiveModalProject(null)}
-                className="p-1.5 rounded-sm text-ink-soft hover:text-ink hover:bg-sky-50 transition-colors"
+                className="p-2 rounded-sm text-ink-soft hover:text-ink hover:bg-sky-50 transition-colors"
                 aria-label="Close case study"
               >
                 <CloseIcon size={20} strokeWidth={1.5} />
               </button>
             </div>
 
-            <div className="py-6 space-y-6">
+            <div className="py-6 space-y-6 text-sm text-ink leading-relaxed">
+              {/* Overview */}
               <div>
-                <h4 className="font-mono text-xs uppercase tracking-wider text-ink-soft mb-1">
+                <h4 className="font-mono text-xs uppercase tracking-wider text-ink-soft mb-1.5 font-medium">
+                  Overview
+                </h4>
+                <p>{activeModalProject.caseStudy.overview}</p>
+              </div>
+
+              {/* Problem */}
+              <div>
+                <h4 className="font-mono text-xs uppercase tracking-wider text-ink-soft mb-1.5 font-medium">
                   The Problem
                 </h4>
-                <p className="text-sm md:text-base text-ink leading-relaxed">
-                  {activeModalProject.problem}
-                </p>
+                <p>{activeModalProject.caseStudy.problem}</p>
               </div>
 
+              {/* Key Features */}
               <div>
-                <h4 className="font-mono text-xs uppercase tracking-wider text-ink-soft mb-1">
-                  What I Built &amp; Architecture
+                <h4 className="font-mono text-xs uppercase tracking-wider text-ink-soft mb-2 font-medium">
+                  Key Features Implemented
                 </h4>
-                <p className="text-sm md:text-base text-ink leading-relaxed">
-                  {activeModalProject.solution}
-                </p>
+                <ul className="space-y-2">
+                  {activeModalProject.caseStudy.features.map((feat, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5">
+                      <span className="text-sky-700 font-bold">&bull;</span>
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
+              {/* Hard Parts / Technical Challenges */}
+              <div className="p-4 rounded-sm bg-paper border border-line">
+                <h4 className="font-mono text-xs uppercase tracking-wider text-sky-700 font-semibold mb-2">
+                  Technical Challenges Solved
+                </h4>
+                <ul className="space-y-2 text-xs md:text-sm text-ink-soft">
+                  {activeModalProject.caseStudy.challenges.map((challenge, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="text-sky-700 font-mono font-medium">[{idx + 1}]</span>
+                      <span>{challenge}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Result */}
               <div className="p-4 rounded-sm bg-sky-50 border border-sky-100 flex items-start gap-3">
                 <CheckCircleIcon size={18} className="text-sky-700 mt-0.5 shrink-0" strokeWidth={1.5} />
                 <div>
                   <h4 className="font-mono text-xs uppercase tracking-wider text-sky-700 font-semibold mb-0.5">
-                    Measurable Result
+                    Result &amp; Outcome
                   </h4>
-                  <p className="text-sm text-ink font-medium">
-                    {activeModalProject.result}
+                  <p className="font-medium text-ink">
+                    {activeModalProject.caseStudy.result}
                   </p>
                 </div>
               </div>
 
+              {/* Stack */}
               <div>
-                <h4 className="font-mono text-xs uppercase tracking-wider text-ink-soft mb-2">
-                  Stack &amp; Tooling
+                <h4 className="font-mono text-xs uppercase tracking-wider text-ink-soft mb-2 font-medium">
+                  Tech Stack
                 </h4>
-                <div className="flex flex-wrap gap-2">
-                  {activeModalProject.tags.map((tag) => (
+                <div className="flex flex-wrap gap-1.5">
+                  {activeModalProject.stack.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2.5 py-1 bg-sky-100 text-sky-700 font-mono text-xs rounded-sm"
+                      className="px-2.5 py-1 bg-sky-100 text-sky-700 font-mono text-xs rounded-sm font-medium"
                     >
                       {tag}
                     </span>
@@ -293,17 +257,27 @@ export const Projects: React.FC = () => {
                 onClick={() => setActiveModalProject(null)}
                 className="px-4 py-2 rounded-sm border border-line text-xs font-mono text-ink hover:bg-sky-50 transition-colors"
               >
-                Close
+                Close case study
               </button>
-              <div className="flex items-center gap-3">
-                {activeModalProject.githubUrl && (
+              <div className="flex items-center gap-4">
+                {activeModalProject.links.github && (
                   <a
-                    href={activeModalProject.githubUrl}
+                    href={activeModalProject.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-mono text-sky-700 hover:text-ink flex items-center gap-1"
+                    className="text-xs font-mono text-sky-700 hover:text-ink flex items-center gap-1 font-medium"
                   >
                     View Code <ArrowUpRightIcon size={12} />
+                  </a>
+                )}
+                {activeModalProject.links.live && (
+                  <a
+                    href={activeModalProject.links.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-mono text-sky-700 hover:text-ink flex items-center gap-1 font-medium"
+                  >
+                    Live Demo <ExternalLinkIcon size={12} />
                   </a>
                 )}
               </div>

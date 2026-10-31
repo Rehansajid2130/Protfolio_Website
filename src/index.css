@@ -52,6 +52,22 @@
   outline-offset: 2px;
 }
 
+/* ponytail: hardware-accelerated marquee running on compositor thread */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 26s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 /* ponytail: native prefers-reduced-motion compliance */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
