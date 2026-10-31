@@ -17,28 +17,27 @@ export const FramerContact: React.FC = () => {
     <section id="contact" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column (5 cols): Statement */}
+          {/* Left Column: Big Statement */}
           <div className="lg:col-span-5 space-y-6">
             <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50 block">
-              / Get In Touch
+              / Contact
             </span>
-            <h2 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#111111] leading-none">
+            <h2 className="font-display font-black text-5xl sm:text-6xl md:text-7xl tracking-tight text-[#111111] leading-none">
               Let’s talk.
             </h2>
-            <p className="text-base md:text-lg text-[#111111]/70 leading-relaxed font-sans max-w-md">
-              Have a project or need help? Fill out the form, and I’ll get back to you soon with
-              timelines and architecture suggestions.
+            <p className="text-base sm:text-lg text-[#111111]/70 leading-relaxed font-sans max-w-md">
+              Have a project or need help? Fill out the form, and we&apos;ll get back to you soon.
             </p>
 
-            <div className="pt-6 border-t border-[#111111]/10 space-y-2 font-mono text-xs uppercase text-[#111111]/60">
+            <div className="pt-6 border-t border-[#111111]/10 space-y-2 font-mono text-xs uppercase text-[#111111]/50">
               <div>RESPONSE WINDOW: &lt; 24 HOURS</div>
               <div>DIRECT EMAIL: REHAN.FRONTEND@GMAIL.COM</div>
               <div>LOCATION: LAHORE, PAKISTAN (UTC+5)</div>
             </div>
           </div>
 
-          {/* Right Column (7 cols): Form */}
-          <div className="lg:col-span-7 bg-white p-8 md:p-12 rounded-3xl border border-[#111111]/10 shadow-sm">
+          {/* Right Column: Form */}
+          <div className="lg:col-span-7 bg-white p-8 md:p-12 rounded-[20px] border border-[#111111]/10 shadow-sm">
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -114,13 +113,12 @@ export const FramerContact: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#111111] text-[#FAF7F3] hover:bg-[#0099FF] transition-colors duration-200 text-xs font-mono uppercase tracking-wider font-medium"
+                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#111111] text-[#FAF7F3] hover:bg-[#0099FF] transition-colors duration-200 text-xs font-mono uppercase tracking-wider font-semibold"
                 >
                   <RollingText text="Submit" className="text-white" />
-                  <ArrowUpRightIcon
-                    size={14}
-                    className="text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
+                  <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover:rotate-45">
+                    <ArrowUpRightIcon size={12} className="text-white" />
+                  </div>
                 </button>
               </form>
             )}
@@ -130,4 +128,3 @@ export const FramerContact: React.FC = () => {
     </section>
   );
 };
-

@@ -8,7 +8,7 @@ interface RollingTextProps {
   duration?: number;
 }
 
-// ponytail: faithful reproduction of Framer's signature RollingTextHover component using Framer Motion
+// Exact replica of Framer University's RollingTextHover component
 export const RollingText: React.FC<RollingTextProps> = ({
   text,
   className = '',
@@ -62,4 +62,3 @@ export const RollingText: React.FC<RollingTextProps> = ({
     </span>
   );
 };
-

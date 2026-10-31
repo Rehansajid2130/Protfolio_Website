@@ -6,25 +6,20 @@ import { articles } from '../../data/thoughts.ts';
 
 export const FramerThoughts: React.FC = () => {
   return (
-    <section id="thoughts" className="py-24 md:py-32 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
+    <section id="thoughts" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-10 border-b border-[#111111]/10 gap-4 mb-14">
-          <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50 block mb-2">
-              / Editorial
-            </span>
-            <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tight text-[#111111]">
-              Thoughts
-            </h2>
-          </div>
-          <p className="text-sm font-mono uppercase text-[#111111]/60">
-            [ Design Systems &amp; Direction ]
-          </p>
+        <div className="pb-10 border-b border-[#111111]/10 mb-14">
+          <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50 block mb-2">
+            / Insights
+          </span>
+          <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#111111]">
+            Thoughts
+          </h2>
         </div>
 
-        {/* 3-Column Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* 3-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14">
           {articles.map((article, idx) => (
             <motion.article
               key={article.title}
@@ -35,21 +30,22 @@ export const FramerThoughts: React.FC = () => {
               transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
               <div>
-                <div className="relative aspect-[16/10] bg-[#111111]/5 rounded-xl overflow-hidden border border-[#111111]/10 mb-5">
+                {/* Image card with rounded corners */}
+                <div className="relative aspect-[16/10] bg-[#111111]/5 rounded-[20px] overflow-hidden border border-[#111111]/10 mb-5">
                   <img
                     src={article.image}
                     alt={article.title}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   />
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-white/90 text-[#111111] font-mono text-[10px] uppercase tracking-wider">
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[#111111] font-mono text-[10px] uppercase tracking-wider font-medium">
                       {article.date}
                     </span>
                   </div>
                 </div>
 
-                <h3 className="font-display font-bold text-xl text-[#111111] group-hover:text-[#0099FF] transition-colors leading-snug mb-2">
+                <h3 className="font-display font-bold text-xl md:text-2xl text-[#111111] group-hover:text-[#0099FF] transition-colors leading-snug mb-2">
                   <RollingText text={article.title} />
                 </h3>
 
@@ -65,8 +61,21 @@ export const FramerThoughts: React.FC = () => {
             </motion.article>
           ))}
         </div>
+
+        {/* Callout from Reference: "See how we shape brands with clarity and craft—explore our blog" */}
+        <div className="p-8 md:p-12 rounded-[20px] bg-white border border-[#111111]/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <p className="font-display font-medium text-xl md:text-2xl text-[#111111] max-w-xl">
+            See how we shape digital products with clarity and craft&mdash;explore our blog.
+          </p>
+          <a
+            href="#hero-section"
+            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full bg-[#111111] text-[#FAF7F3] hover:bg-[#0099FF] transition-colors text-xs font-mono uppercase tracking-wider font-semibold shrink-0"
+          >
+            <RollingText text="Explore Blog" className="text-white" />
+            <ArrowUpRightIcon size={12} className="text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+        </div>
       </div>
     </section>
   );
 };
-
