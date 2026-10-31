@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --white: #ffffff;
+  --paper: #f6fafd;
+  --sky-50: #eef7fd;
+  --sky-100: #d9eefb;
+  --sky-300: #8cd0f5;
+  --sky-500: #2ba3e6;
+  --sky-700: #0b6fa8;
+  --ink: #0e1b26;
+  --ink-soft: #4a5b69;
+  --line: #d6e4ee;
+  --orange-500: #ff7a1a;
+  --orange-600: #e8650a;
+  --orange-100: #ffe9d6;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --shadow-card: 0 8px 24px rgba(14, 27, 38, 0.08);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --dur-slow: 700ms;
+}
+
+/* ponytail: fluid typography utility classes per style guide section 3 */
+.text-display {
+  font-size: clamp(2.75rem, 7vw, 6rem);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+}
+
+.text-fluid-h1 {
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.text-fluid-h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* ponytail: native focus ring per style guide section 12 */
+:focus-visible {
+  outline: 3px solid var(--sky-500);
+  outline-offset: 2px;
+}
+
+/* ponytail: native prefers-reduced-motion compliance */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
