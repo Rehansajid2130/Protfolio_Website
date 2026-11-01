@@ -32,7 +32,7 @@ const Word: React.FC<WordProps> = ({ word, index, total, progress }) => {
   );
 };
 
-export const FramerQuote: React.FC = () => {
+export const Quote: React.FC = () => {
   const targetRef = useRef<HTMLDivElement>(null);
   const words = quoteText.split(' ');
 

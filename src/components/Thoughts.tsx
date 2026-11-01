@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRightIcon } from '../Icons.tsx';
-import { RollingText } from '../ui/RollingText.tsx';
-import { articles } from '../../data/thoughts.ts';
+import { ArrowUpRightIcon } from './Icons.tsx';
+import { RollingText } from './ui/RollingText.tsx';
+import { articles } from '../data/thoughts.ts';
 
-export const FramerThoughts: React.FC = () => {
+export const Thoughts: React.FC = () => {
   return (
     <section id="thoughts" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
@@ -62,7 +62,7 @@ export const FramerThoughts: React.FC = () => {
           ))}
         </div>
 
-        {/* Callout from Reference: "See how we shape brands with clarity and craft—explore our blog" */}
+        {/* Callout */}
         <div className="p-8 md:p-12 rounded-[20px] bg-white border border-[#111111]/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <p className="font-display font-medium text-xl md:text-2xl text-[#111111] max-w-xl">
             See how we shape digital products with clarity and craft&mdash;explore our blog.
@@ -79,3 +79,4 @@ export const FramerThoughts: React.FC = () => {
     </section>
   );
 };
+

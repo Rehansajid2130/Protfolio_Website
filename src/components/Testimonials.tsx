@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { testimonials } from '../../data/testimonials.ts';
+import { testimonials } from '../data/testimonials.ts';
 
-export const FramerTestimonials: React.FC = () => {
+export const Testimonials: React.FC = () => {
   return (
     <section id="testimonials" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
@@ -16,7 +16,7 @@ export const FramerTestimonials: React.FC = () => {
           </h2>
         </div>
 
-        {/* 2x2 Dark Cards from Reference */}
+        {/* 2x2 Dark Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {testimonials.map((item, idx) => (
             <motion.div
@@ -54,3 +54,4 @@ export const FramerTestimonials: React.FC = () => {
     </section>
   );
 };
+

@@ -1,8 +1,8 @@
 import React from 'react';
-import { RollingText } from '../ui/RollingText.tsx';
-import { ArrowUpIcon } from '../Icons.tsx';
+import { RollingText } from './ui/RollingText.tsx';
+import { ArrowUpIcon } from './Icons.tsx';
 
-export const FramerFooter: React.FC = () => {
+export const Footer: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -27,7 +27,7 @@ export const FramerFooter: React.FC = () => {
           <div className="md:col-span-3 space-y-3 font-mono text-xs uppercase tracking-wider">
             <span className="text-[#111111]/50 block mb-2">/ Quick links</span>
             <div className="flex flex-col space-y-2 text-[#111111]">
-              <a href="#hero" className="hover:text-[#0099FF] transition-colors">
+              <a href="#hero-section" className="hover:text-[#0099FF] transition-colors">
                 <RollingText text="Home" />
               </a>
               <a href="#services" className="hover:text-[#0099FF] transition-colors">
@@ -67,7 +67,7 @@ export const FramerFooter: React.FC = () => {
           </div>
         </div>
 
-        {/* Colossal Wordmark from Majd Framer Site: Edge-to-edge typography */}
+        {/* Colossal Wordmark: Edge-to-edge typography */}
         <div className="pt-10 pb-6 text-center overflow-hidden">
           <div className="font-display font-black text-[18vw] leading-[0.8] tracking-tighter text-[#111111] select-none uppercase hover:text-[#0099FF] transition-colors duration-500">
             Rehan

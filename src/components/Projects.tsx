@@ -1,40 +1,40 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRightIcon } from '../Icons.tsx';
-import { RollingText } from '../ui/RollingText.tsx';
+import { ArrowUpRightIcon } from './Icons.tsx';
+import { RollingText } from './ui/RollingText.tsx';
 
 const projects = [
   {
     id: 'damas',
     title: 'Damas',
-    category: 'Agency Framer Template',
+    category: 'Agency Web Platform',
     image: 'https://framerusercontent.com/images/VNXQLcPHw9VbVzy6BDpZ8pUsaU.png?width=1160&height=800',
     link: '#',
   },
   {
     id: 'najm',
     title: 'Najm',
-    category: 'SaaS Framer Template',
+    category: 'SaaS Analytics Platform',
     image: 'https://framerusercontent.com/images/WgEHVRrQs62rgxlzrnXJJ8rr4.png?width=1160&height=800',
     link: '#',
   },
   {
     id: 'kavi',
     title: 'Kavi',
-    category: 'AI Framer Template',
+    category: 'AI Workflow Engine',
     image: 'https://framerusercontent.com/images/I3azeVtkvdKBGl9TX38tUdXEb0.png?width=1160&height=800',
     link: '#',
   },
   {
     id: 'sham',
     title: 'Sham',
-    category: 'Studio Framer Template',
+    category: 'Design System & Studio',
     image: 'https://framerusercontent.com/images/e3DxUGJWqt7CIVVQIA0VZoy09FQ.png?width=1160&height=800',
     link: '#',
   },
 ];
 
-export const FramerProjects: React.FC = () => {
+export const Projects: React.FC = () => {
   return (
     <section id="projects" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
@@ -107,3 +107,4 @@ export const FramerProjects: React.FC = () => {
     </section>
   );
 };
+

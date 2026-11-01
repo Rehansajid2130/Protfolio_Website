@@ -1,20 +1,20 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRightIcon } from '../Icons.tsx';
-import { RollingText } from '../ui/RollingText.tsx';
+import { ArrowUpRightIcon } from './Icons.tsx';
+import { RollingText } from './ui/RollingText.tsx';
 
 const services = [
   {
     num: '01',
     title: 'Website Migration',
-    categories: ['Web Migration', 'Optimization', 'Framer Rebuild'],
+    categories: ['Web Migration', 'Optimization', 'Performance Rebuild'],
     description: 'Transforming legacy codebases and designs into blazing-fast modern builds with zero SEO degradation.',
   },
   {
     num: '02',
-    title: 'Framer Templates',
-    categories: ['Startup', 'Agency', 'SaaS'],
-    description: 'Engineering reusable, conversion-driven templates with high-end motion and responsive layouts.',
+    title: 'Web Applications',
+    categories: ['SaaS', 'Startup MVP', 'Full-Stack'],
+    description: 'Engineering scalable, conversion-driven web products with high-end motion and responsive layouts.',
   },
   {
     num: '03',
@@ -30,7 +30,7 @@ const services = [
   },
 ];
 
-export const FramerServices: React.FC = () => {
+export const Services: React.FC = () => {
   return (
     <section id="services" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
@@ -44,7 +44,7 @@ export const FramerServices: React.FC = () => {
           </h2>
         </div>
 
-        {/* Horizontal Stack List Rows per Reference Site */}
+        {/* Horizontal Stack List Rows */}
         <div className="divide-y divide-[#111111]/10 border-b border-[#111111]/10">
           {services.map((item, idx) => (
             <motion.div
@@ -94,3 +94,4 @@ export const FramerServices: React.FC = () => {
     </section>
   );
 };
+

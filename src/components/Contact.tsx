@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRightIcon, CheckCircleIcon } from '../Icons.tsx';
-import { RollingText } from '../ui/RollingText.tsx';
+import { ArrowUpRightIcon, CheckCircleIcon } from './Icons.tsx';
+import { RollingText } from './ui/RollingText.tsx';
 
-export const FramerContact: React.FC = () => {
+export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', project: '' });
   const [submitted, setSubmitted] = useState(false);
 
@@ -128,3 +128,4 @@ export const FramerContact: React.FC = () => {
     </section>
   );
 };
+
