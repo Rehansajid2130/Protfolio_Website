@@ -3,72 +3,143 @@
 @tailwind utilities;
 
 :root {
-  --white: #ffffff;
-  --paper: #f6fafd;
-  --sky-50: #eef7fd;
-  --sky-100: #d9eefb;
-  --sky-300: #8cd0f5;
-  --sky-500: #2ba3e6;
-  --sky-700: #0b6fa8;
-  --ink: #0e1b26;
-  --ink-soft: #4a5b69;
-  --line: #d6e4ee;
-  --orange-500: #ff7a1a;
-  --orange-600: #e8650a;
-  --orange-100: #ffe9d6;
+  --token-b5ff5227-81f4-4c80-8c80-3dd60a8e9a45: #faf7f380;
 
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --shadow-card: 0 8px 24px rgba(14, 27, 38, 0.08);
+  /* 6 Colors from Reference */
+  --color-white: #ffffff;
+  --color-white-smoke: #f9f6f2;
+  --color-dark-turquoise: #0099ff;
+  --color-blue: #0000ee;
+  --color-black: #000000;
+  --color-black-1: #111111;
+
+  /* Typography – Raw tokens */
+  --font-archivo: "Archivo", sans-serif;
+  --font-sans-serif: "Inter", sans-serif;
+  --text-12: 12px;
+  --text-16: 16px;
+  --text-18: 18px;
+  --text-22: 22px;
+  --text-26: 26px;
+  --text-32: 32px;
+  --text-68: 68px;
+  --text-72: 72px;
+  --text-416: 416px;
+  --tracking-neg-8-33901: -8.33901px;
+  --tracking-neg-1-44: -1.44px;
+  --tracking-neg-1-36: -1.36px;
+  --tracking-neg-0-64: -0.64px;
+  --tracking-neg-0-88: -0.88px;
+  --tracking-neg-0-72: -0.72px;
+  --tracking-neg-0-32: -0.32px;
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --dur-fast: 150ms;
-  --dur-base: 300ms;
-  --dur-slow: 700ms;
 }
 
-/* ponytail: fluid typography utility classes per style guide section 3 */
-.text-display {
-  font-size: clamp(2.75rem, 7vw, 6rem);
-  line-height: 1.0;
-  letter-spacing: -0.03em;
+/* Contact form inputs with focus state */
+.contact-input {
+  border-color: var(--token-b5ff5227-81f4-4c80-8c80-3dd60a8e9a45, #faf7f380);
+  color: var(--token-b5ff5227-81f4-4c80-8c80-3dd60a8e9a45, #faf7f380);
+  background-color: transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 
-.text-fluid-h1 {
-  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+.contact-input:focus,
+.contact-input:focus-visible,
+.contact-input:active {
+  border-color: #ffffff !important;
+  color: #ffffff;
+  outline: none;
 }
 
-.text-fluid-h2 {
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+/* Typography – Semantic type styles */
+.type-body {
+  font-family: var(--font-archivo);
+  font-size: var(--text-416);
+  font-weight: 700;
+  line-height: 0.90;
+  letter-spacing: var(--tracking-neg-8-33901);
 }
 
-/* ponytail: native focus ring per style guide section 12 */
+.type-h1 {
+  font-family: var(--font-archivo);
+  font-size: var(--text-72);
+  font-weight: 700;
+  line-height: 1.00;
+  letter-spacing: var(--tracking-neg-1-44);
+}
+
+.type-h2 {
+  font-family: var(--font-archivo);
+  font-size: var(--text-68);
+  font-weight: 600;
+  line-height: 1.00;
+  letter-spacing: var(--tracking-neg-1-36);
+}
+
+.type-h3 {
+  font-family: var(--font-archivo);
+  font-size: var(--text-32);
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: var(--tracking-neg-0-64);
+}
+
+.type-h4 {
+  font-family: var(--font-archivo);
+  font-size: var(--text-26);
+  font-weight: 500;
+  line-height: 1.20;
+}
+
+.type-body-22 {
+  font-family: var(--font-archivo);
+  font-size: var(--text-22);
+  font-weight: 600;
+  line-height: 1.40;
+  letter-spacing: var(--tracking-neg-0-88);
+}
+
+.type-body-18 {
+  font-family: var(--font-archivo);
+  font-size: var(--text-18);
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: var(--tracking-neg-0-72);
+}
+
+.type-body-16 {
+  font-family: var(--font-archivo);
+  font-size: var(--text-16);
+  font-weight: 500;
+  line-height: 1.20;
+  letter-spacing: var(--tracking-neg-0-32);
+}
+
+.type-body-16-400 {
+  font-family: var(--font-archivo);
+  font-size: var(--text-16);
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: var(--tracking-neg-0-64);
+}
+
+.type-caption,
+.type-caption-12,
+.type-caption-12-400 {
+  font-family: var(--font-sans-serif);
+  font-size: var(--text-12);
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* Native focus ring */
 :focus-visible {
-  outline: 3px solid var(--sky-500);
+  outline: 2px solid var(--color-dark-turquoise);
   outline-offset: 2px;
 }
 
-/* ponytail: hardware-accelerated marquee running on compositor thread */
-@keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 26s linear infinite;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-/* ponytail: native prefers-reduced-motion compliance */
+/* Native prefers-reduced-motion compliance */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
@@ -77,4 +148,3 @@
     scroll-behavior: auto !important;
   }
 }
-

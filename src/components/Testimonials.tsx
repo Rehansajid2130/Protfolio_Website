@@ -4,14 +4,14 @@ import { testimonials } from '../data/testimonials.ts';
 
 export const Testimonials: React.FC = () => {
   return (
-    <section id="testimonials" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1240px] mx-auto px-6 md:px-10">
+    <section id="testimonials" className="py-24 md:py-36 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
+      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
         {/* Header */}
         <div className="pb-10 border-b border-[#111111]/10 mb-14">
-          <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50 block mb-2">
+          <span className="type-caption text-[#111111]/50 uppercase tracking-widest block mb-2">
             / Feedback
           </span>
-          <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#111111]">
+          <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
             Testimonials
           </h2>
         </div>
@@ -27,7 +27,7 @@ export const Testimonials: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
-              <p className="text-base sm:text-lg text-[#FAF7F3]/90 leading-relaxed font-sans mb-10">
+              <p className="type-body-18 text-[#FAF7F3]/90 leading-[1.40] tracking-[-0.72px] mb-10">
                 &ldquo;{item.quote}&rdquo;
               </p>
 
@@ -39,10 +39,10 @@ export const Testimonials: React.FC = () => {
                   className="w-12 h-12 rounded-full object-cover border border-white/20 shrink-0"
                 />
                 <div>
-                  <div className="font-display font-bold text-base text-white">
+                  <div className="font-display font-medium text-base text-white">
                     {item.name}
                   </div>
-                  <div className="font-mono text-xs uppercase tracking-wider text-white/50">
+                  <div className="type-caption uppercase tracking-wider text-white/50">
                     {item.role}
                   </div>
                 </div>

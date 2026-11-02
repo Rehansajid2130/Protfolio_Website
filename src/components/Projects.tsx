@@ -36,15 +36,15 @@ const projects = [
 
 export const Projects: React.FC = () => {
   return (
-    <section id="projects" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1240px] mx-auto px-6 md:px-10">
+    <section id="projects" className="py-24 md:py-36 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
+      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
         {/* Header row: Featured Projects on left, View All Work button on right */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-10 border-b border-[#111111]/10 gap-6 mb-14">
           <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50 block mb-2">
+            <span className="type-caption text-[#111111]/50 uppercase tracking-widest block mb-2">
               / Selected Works
             </span>
-            <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#111111]">
+            <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
               Featured Projects
             </h2>
           </div>
@@ -87,10 +87,10 @@ export const Projects: React.FC = () => {
                 {/* Title & Category Below */}
                 <div className="flex items-baseline justify-between pt-1">
                   <div>
-                    <h3 className="font-display font-bold text-2xl md:text-3xl text-[#111111] group-hover:text-[#0099FF] transition-colors">
+                    <h3 className="font-display font-medium text-2xl md:text-[32px] leading-[1.2] tracking-[-0.64px] text-[#111111] group-hover:text-[#0099FF] transition-colors">
                       <RollingText text={project.title} />
                     </h3>
-                    <p className="text-xs font-mono uppercase tracking-wider text-[#111111]/50 mt-1">
+                    <p className="type-caption uppercase tracking-wider text-[#111111]/50 mt-1">
                       {project.category}
                     </p>
                   </div>

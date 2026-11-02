@@ -8,25 +8,31 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111] pt-20 pb-8 overflow-hidden select-none">
-      <div className="max-w-[1240px] mx-auto px-6 md:px-10">
+    <footer className="relative bg-[#141414] border-t border-white/[0.08] text-[#FAF7F3] pt-20 pb-8 overflow-hidden select-none">
+      {/* Subtle Film Grain Noise on Black */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-screen bg-repeat z-0"
+        style={{ backgroundImage: `url('/images/noise.png')` }}
+      />
+
+      <div className="relative z-10 max-w-[1180px] mx-auto px-6 sm:px-10">
         {/* Top footer row */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-16 border-b border-[#111111]/10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-16 border-b border-white/[0.08]">
           <div className="md:col-span-5 space-y-4">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50 block">
+            <span className="type-caption text-white/50 uppercase tracking-widest block">
               / Mission
             </span>
-            <p className="font-display font-bold text-2xl md:text-3xl text-[#111111] leading-snug">
+            <p className="font-display font-bold text-2xl md:text-3xl text-white leading-snug">
               Scaling Start-ups for Growth.
             </p>
-            <p className="text-sm text-[#111111]/60 font-sans max-w-sm">
+            <p className="text-sm text-white/70 font-sans max-w-sm">
               Building modern, scalable web products driven by clarity, structured component architecture, and speed.
             </p>
           </div>
 
           <div className="md:col-span-3 space-y-3 font-mono text-xs uppercase tracking-wider">
-            <span className="text-[#111111]/50 block mb-2">/ Quick links</span>
-            <div className="flex flex-col space-y-2 text-[#111111]">
+            <span className="text-white/50 block mb-2">/ Quick links</span>
+            <div className="flex flex-col space-y-2 text-white/80">
               <a href="#hero-section" className="hover:text-[#0099FF] transition-colors">
                 <RollingText text="Home" />
               </a>
@@ -47,10 +53,10 @@ export const Footer: React.FC = () => {
 
           <div className="md:col-span-4 space-y-4 font-mono text-xs uppercase tracking-wider flex flex-col justify-between">
             <div>
-              <span className="text-[#111111]/50 block mb-2">/ Direct Contact</span>
+              <span className="text-white/50 block mb-2">/ Direct Contact</span>
               <a
                 href="mailto:rehan.frontend@gmail.com"
-                className="text-sm font-semibold text-[#111111] hover:text-[#0099FF] transition-colors"
+                className="text-sm font-semibold text-white hover:text-[#0099FF] transition-colors"
               >
                 rehan.frontend@gmail.com
               </a>
@@ -59,7 +65,7 @@ export const Footer: React.FC = () => {
             <button
               type="button"
               onClick={scrollToTop}
-              className="inline-flex items-center gap-2 self-start px-4 py-2 rounded-full border border-[#111111]/20 hover:border-[#111111] transition-colors text-xs font-mono uppercase tracking-wider"
+              className="inline-flex items-center gap-2 self-start px-4 py-2 rounded-xl border border-white/20 hover:border-white hover:bg-white hover:text-[#111111] transition-all text-xs font-mono uppercase tracking-wider text-white"
             >
               <span>Back to top</span>
               <ArrowUpIcon size={12} />
@@ -69,13 +75,13 @@ export const Footer: React.FC = () => {
 
         {/* Colossal Wordmark: Edge-to-edge typography */}
         <div className="pt-10 pb-6 text-center overflow-hidden">
-          <div className="font-display font-black text-[18vw] leading-[0.8] tracking-tighter text-[#111111] select-none uppercase hover:text-[#0099FF] transition-colors duration-500">
+          <div className="font-display font-bold text-[17vw] xl:text-[13rem] leading-[0.90] tracking-[-8.34px] text-[#FAF7F3] select-none uppercase hover:text-[#0099FF] transition-colors duration-500">
             Rehan
           </div>
         </div>
 
         {/* Bottom copyright row */}
-        <div className="pt-6 border-t border-[#111111]/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono uppercase text-[#111111]/40">
+        <div className="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono uppercase text-white/40">
           <div>©2026 REHAN &bull; ALL RIGHTS RESERVED</div>
           <div>POWERED BY CLEAN REACT &amp; ZERO VENDOR LOCK-IN</div>
         </div>
@@ -83,4 +89,3 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
-

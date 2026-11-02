@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRightIcon, CheckCircleIcon } from './Icons.tsx';
-import { RollingText } from './ui/RollingText.tsx';
+import { CheckCircleIcon, XIcon, InstagramIcon, LinkedinIcon, YoutubeIcon } from './Icons.tsx';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', project: '' });
@@ -14,118 +13,167 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1240px] mx-auto px-6 md:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Big Statement */}
-          <div className="lg:col-span-5 space-y-6">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50 block">
-              / Contact
-            </span>
-            <h2 className="font-display font-black text-5xl sm:text-6xl md:text-7xl tracking-tight text-[#111111] leading-none">
-              Let’s talk.
-            </h2>
-            <p className="text-base sm:text-lg text-[#111111]/70 leading-relaxed font-sans max-w-md">
-              Have a project or need help? Fill out the form, and we&apos;ll get back to you soon.
-            </p>
+    <section id="contact" className="py-20 sm:py-28 md:py-32 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
+      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-20 items-stretch">
+          {/* Left Column: Heading + Subtitle at top, Social icons at bottom */}
+          <div className="lg:col-span-6 flex flex-col justify-between py-1">
+            <div className="space-y-4">
+              <h2 className="font-display font-bold text-5xl sm:text-6xl md:text-[68px] lg:text-[72px] leading-[1.0] tracking-[-1.44px] text-[#111111]">
+                Let’s talk.
+              </h2>
+              <p className="font-sans text-base sm:text-lg text-[#111111]/75 leading-relaxed max-w-md">
+                Have a project or need help? Fill out the form, and we&apos;ll get back to you soon.
+              </p>
+            </div>
 
-            <div className="pt-6 border-t border-[#111111]/10 space-y-2 font-mono text-xs uppercase text-[#111111]/50">
-              <div>RESPONSE WINDOW: &lt; 24 HOURS</div>
-              <div>DIRECT EMAIL: REHAN.FRONTEND@GMAIL.COM</div>
-              <div>LOCATION: LAHORE, PAKISTAN (UTC+5)</div>
+            {/* Bottom Social Media Icon Buttons matching reference */}
+            <div className="pt-10 lg:pt-0 flex items-center gap-3">
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X (Twitter)"
+                className="w-11 h-11 rounded-[10px] bg-[#E2DCD3] text-[#111111] flex items-center justify-center hover:bg-[#111111] hover:text-[#FAF7F3] active:scale-95 transition-all duration-200"
+              >
+                <XIcon size={16} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-11 h-11 rounded-[10px] bg-[#E2DCD3] text-[#111111] flex items-center justify-center hover:bg-[#111111] hover:text-[#FAF7F3] active:scale-95 transition-all duration-200"
+              >
+                <InstagramIcon size={18} strokeWidth={2} />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="w-11 h-11 rounded-[10px] bg-[#E2DCD3] text-[#111111] flex items-center justify-center hover:bg-[#111111] hover:text-[#FAF7F3] active:scale-95 transition-all duration-200"
+              >
+                <LinkedinIcon size={18} />
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="w-11 h-11 rounded-[10px] bg-[#E2DCD3] text-[#111111] flex items-center justify-center hover:bg-[#111111] hover:text-[#FAF7F3] active:scale-95 transition-all duration-200"
+              >
+                <YoutubeIcon size={18} />
+              </a>
             </div>
           </div>
 
-          {/* Right Column: Form */}
-          <div className="lg:col-span-7 bg-white p-8 md:p-12 rounded-[20px] border border-[#111111]/10 shadow-sm">
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="py-12 text-center space-y-4"
-              >
-                <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-                  <CheckCircleIcon size={32} />
-                </div>
-                <h3 className="font-display font-bold text-2xl text-[#111111]">
-                  Message received.
-                </h3>
-                <p className="text-sm text-[#111111]/60 max-w-sm mx-auto">
-                  Thank you for reaching out. I will review your requirements and follow up within 24 hours.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSubmitted(false);
-                    setFormData({ name: '', email: '', project: '' });
-                  }}
-                  className="mt-4 px-6 py-2.5 rounded-full border border-[#111111]/20 text-xs font-mono uppercase tracking-wider text-[#111111] hover:bg-[#111111] hover:text-white transition-colors"
+          {/* Right Column: Dark Black Contact Card with Subtle Noise matching screenshot */}
+          <div className="lg:col-span-6 bg-[#141414] text-[#FAF7F3] p-6 sm:p-4 rounded-[20px] border border-white/[0.08] shadow-2xl relative overflow-hidden flex flex-col justify-center">
+            {/* Subtle Film Grain Noise Texture */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-screen bg-repeat z-0"
+              style={{ backgroundImage: `url('/images/noise.png')` }}
+            />
+
+            <div className="relative z-10">
+              {submitted ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="py-12 text-center space-y-4"
                 >
-                  Send another message
-                </button>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-xs font-mono uppercase tracking-wider text-[#111111]/60 mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Your Name"
-                    className="w-full px-5 py-4 bg-[#FAF7F3] border border-[#111111]/10 rounded-xl text-sm text-[#111111] placeholder:text-[#111111]/30 focus:border-[#111111] focus:outline-none transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-xs font-mono uppercase tracking-wider text-[#111111]/60 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="alex@company.com"
-                    className="w-full px-5 py-4 bg-[#FAF7F3] border border-[#111111]/10 rounded-xl text-sm text-[#111111] placeholder:text-[#111111]/30 focus:border-[#111111] focus:outline-none transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="project" className="block text-xs font-mono uppercase tracking-wider text-[#111111]/60 mb-2">
-                    Your Project
-                  </label>
-                  <textarea
-                    id="project"
-                    rows={4}
-                    required
-                    value={formData.project}
-                    onChange={(e) => setFormData({ ...formData, project: e.target.value })}
-                    placeholder="Tell me about your product, desired timeline, or goals..."
-                    className="w-full px-5 py-4 bg-[#FAF7F3] border border-[#111111]/10 rounded-xl text-sm text-[#111111] placeholder:text-[#111111]/30 focus:border-[#111111] focus:outline-none transition-colors resize-y"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#111111] text-[#FAF7F3] hover:bg-[#0099FF] transition-colors duration-200 text-xs font-mono uppercase tracking-wider font-semibold"
-                >
-                  <RollingText text="Submit" className="text-white" />
-                  <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover:rotate-45">
-                    <ArrowUpRightIcon size={12} className="text-white" />
+                  <div className="w-14 h-14 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto border border-emerald-500/20">
+                    <CheckCircleIcon size={32} />
                   </div>
-                </button>
-              </form>
-            )}
+                  <h3 className="font-display font-bold text-2xl text-white">
+                    Message received.
+                  </h3>
+                  <p className="text-sm text-white/70 max-w-sm mx-auto">
+                    Thank you for reaching out. I will review your requirements and follow up within 24 hours.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: '', email: '', project: '' });
+                    }}
+                    className="mt-4 px-6 py-2.5 rounded-xl border border-white/20 text-xs font-mono uppercase tracking-wider text-white hover:bg-white hover:text-[#111111] transition-colors"
+                  >
+                    Send another message
+                  </button>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-sans font-medium text-[#FAF7F3] mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Enter your name"
+                      className="contact-input w-full px-4 py-3 bg-transparent border rounded-xl text-sm placeholder:text-[#FAF7F3]/50 outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-sans font-medium text-[#FAF7F3] mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="Enter your email"
+                      className="contact-input w-full px-4 py-3 bg-transparent border rounded-xl text-sm placeholder:text-[#FAF7F3]/50 outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="project" className="block text-sm font-sans font-medium text-[#FAF7F3] mb-2">
+                      Your Project
+                    </label>
+                    <textarea
+                      id="project"
+                      rows={4}
+                      required
+                      value={formData.project}
+                      onChange={(e) => setFormData({ ...formData, project: e.target.value })}
+                      placeholder="Tell us about your project"
+                      className="contact-input w-full px-4 py-3 bg-transparent border rounded-xl text-sm placeholder:text-[#FAF7F3]/50 outline-none transition-colors resize-none min-h-[130px]"
+                    />
+                  </div>
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="rounded-xl bg-[#FAF7F3] text-[#111111] font-display font-semibold text-sm hover:bg-white active:scale-[0.99] transition-all cursor-pointer"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                        height: '100%',
+                        overflow: 'hidden',
+                        padding: '8px 16px',
+                        boxSizing: 'border-box',
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 };
-

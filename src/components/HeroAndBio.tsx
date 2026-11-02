@@ -19,7 +19,7 @@ export const HeroAndBio: React.FC = () => {
   // In Hero (0 -> 0.12): centered at bottom, front face visible, scale: 1
   // Flipping & scaling (0.12 -> 0.6): flips 180deg to back face, scales down, slides into center gap of Bio
   const avatarRotateY = useTransform(scrollYProgress, [0.12, 0.6], [0, 180]);
-  const avatarScale = useTransform(scrollYProgress, [0.12, 0.6], [1, 0.76]);
+  const avatarScale = useTransform(scrollYProgress, [0.12, 0.6], [1, 0.78]);
   const avatarY = useTransform(scrollYProgress, [0.12, 0.6], [0, 40]);
 
   // Bio section fade and slide in on scroll
@@ -30,21 +30,20 @@ export const HeroAndBio: React.FC = () => {
     <div
       ref={containerRef}
       id="hero-section"
-      className="relative min-h-[200vh] bg-[#FAF7F3] text-[#111111] overflow-clip"
+      className="relative min-h-[200vh] bg-[#f9f6f2] text-[#111111] overflow-clip"
     >
       {/* 
         Sticky Avatar Layer:
         Anchored horizontally in the center.
-        In the Hero section (scroll = 0), it sits at the bottom center of the viewport,
-        reaching upward so the word 'ENGINEER' is stamped directly over the upper half of the portrait card.
+        Shorter, refined proportions to fit cleanly below the centered title.
       */}
-      <div className="sticky top-0 h-screen w-full flex items-end justify-center pb-6 sm:pb-8 md:pb-10 pointer-events-none z-10">
+      <div className="sticky top-0 h-screen w-full flex items-end justify-center pb-8 sm:pb-10 md:pb-12 pointer-events-none z-10">
         <div
-          className="pointer-events-auto relative select-none w-[260px] sm:w-[320px] md:w-[360px] lg:w-[390px] aspect-[3/4]"
+          className="pointer-events-auto relative select-none w-[220px] sm:w-[270px] md:w-[310px] lg:w-[330px] h-[290px] sm:h-[350px] md:h-[390px] lg:h-[415px]"
           style={{ perspective: 1200 }}
         >
           <motion.div
-            className="w-full h-full relative rounded-[28px] sm:rounded-[32px] overflow-hidden shadow-2xl border border-black/10 bg-[#111111]"
+            className="w-full h-full relative rounded-[24px] sm:rounded-[28px] overflow-hidden shadow-xl border border-black/10 bg-[#111111]"
             style={{
               rotateY: avatarRotateY,
               scale: avatarScale,
@@ -63,12 +62,12 @@ export const HeroAndBio: React.FC = () => {
                 className="w-full h-full object-cover object-center"
                 loading="eager"
               />
-              <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-white/85 backdrop-blur-md rounded-xl p-2.5 sm:p-3 border border-black/5 flex items-center justify-between shadow-sm">
+              <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 bg-white/85 backdrop-blur-md rounded-xl p-2 sm:p-2.5 border border-black/5 flex items-center justify-between shadow-sm">
                 <div>
-                  <div className="font-display font-bold text-xs uppercase text-[#111111]">
+                  <div className="font-display font-bold text-[11px] sm:text-xs uppercase text-[#111111]">
                     Rehan
                   </div>
-                  <div className="font-mono text-[10px] text-[#111111]/70 uppercase tracking-wide">
+                  <div className="font-mono text-[9px] sm:text-[10px] text-[#111111]/70 uppercase tracking-wide">
                     Lahore, PK &bull; UTC+5
                   </div>
                 </div>
@@ -78,44 +77,44 @@ export const HeroAndBio: React.FC = () => {
 
             {/* Back Face: Clean Credentials Card */}
             <div
-              className="absolute inset-0 w-full h-full bg-[#111111] text-[#FAF7F3] p-6 sm:p-8 flex flex-col justify-between"
+              className="absolute inset-0 w-full h-full bg-[#111111] text-[#FAF7F3] p-5 sm:p-7 flex flex-col justify-between"
               style={{
                 backfaceVisibility: 'hidden',
                 transform: 'rotateY(180deg)',
               }}
             >
               <div>
-                <div className="font-mono text-xs uppercase tracking-widest text-[#0099FF] mb-2">
+                <div className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[#0099FF] mb-1.5">
                   / Credentials
                 </div>
-                <h3 className="font-display font-bold text-xl sm:text-2xl text-white">
+                <h3 className="font-display font-bold text-lg sm:text-xl text-white">
                   Software Engineer
                 </h3>
-                <p className="text-xs font-mono text-white/60 mt-1">
+                <p className="text-[11px] sm:text-xs font-mono text-white/60 mt-0.5">
                   Lahore, PK &bull; Available Worldwide
                 </p>
               </div>
 
-              <div className="space-y-2.5 text-xs font-mono text-white/70">
-                <div className="flex justify-between border-b border-white/10 pb-1.5">
+              <div className="space-y-2 text-[11px] sm:text-xs font-mono text-white/70">
+                <div className="flex justify-between border-b border-white/10 pb-1">
                   <span>Experience</span>
                   <span className="text-white font-medium">5+ Years</span>
                 </div>
-                <div className="flex justify-between border-b border-white/10 pb-1.5">
+                <div className="flex justify-between border-b border-white/10 pb-1">
                   <span>Stack</span>
                   <span className="text-white font-medium">React, TS, Node</span>
                 </div>
-                <div className="flex justify-between border-b border-white/10 pb-1.5">
+                <div className="flex justify-between border-b border-white/10 pb-1">
                   <span>Focus</span>
                   <span className="text-white font-medium">Full-Stack &amp; Web</span>
                 </div>
-                <div className="flex justify-between border-b border-white/10 pb-1.5">
+                <div className="flex justify-between border-b border-white/10 pb-1">
                   <span>Availability</span>
                   <span className="text-emerald-400 font-medium">Immediate</span>
                 </div>
               </div>
 
-              <div className="font-mono text-[10px] uppercase tracking-wider text-white/40">
+              <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-white/40">
                 Crafting digital experiences &rarr;
               </div>
             </div>
@@ -125,23 +124,23 @@ export const HeroAndBio: React.FC = () => {
 
       {/* 
         Stage 1: Hero Viewport (100vh)
-        Features the giant centered "SOFTWARE ENGINEER" headline with the image layered behind it.
+        Centered within the 1180px content area of the 1280px canvas.
       */}
       <motion.div
         style={{ opacity: heroOpacity, y: heroY }}
-        className="absolute top-0 left-0 right-0 h-screen w-full flex flex-col justify-between px-6 sm:px-12 md:px-16 pt-24 pb-6 sm:pb-8 md:pb-10 z-20 pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-screen w-full flex flex-col justify-between pt-24 pb-6 sm:pb-8 md:pb-10 z-20 pointer-events-none"
       >
         {/* Spacer top */}
         <div className="h-4" />
 
-        {/* Centered Massive Headline with Floating 3D Elements */}
-        <div className="relative my-auto flex flex-col items-center justify-center text-center w-full max-w-[1440px] mx-auto">
+        {/* Centered Headline with Floating 3D Elements */}
+        <div className="relative my-auto flex flex-col items-center justify-center text-center w-full max-w-[1180px] mx-auto px-4 sm:px-8">
           {/* Floating 3D Glossy Star (Top-Left of SOFTWARE) */}
           <motion.div
-            className="absolute -top-6 sm:-top-10 md:-top-14 left-2 sm:left-6 md:left-12 lg:left-20 xl:left-28 w-14 sm:w-20 md:w-28 lg:w-36 aspect-square pointer-events-none select-none z-30"
+            className="absolute -top-4 sm:-top-7 md:-top-9 left-2 sm:left-6 md:left-12 lg:left-16 w-12 sm:w-16 md:w-22 lg:w-26 aspect-square pointer-events-none select-none z-30"
             animate={{
-              y: [0, -10, 0],
-              rotate: [0, 6, 0],
+              y: [0, -8, 0],
+              rotate: [0, 5, 0],
             }}
             transition={{
               duration: 6,
@@ -152,16 +151,16 @@ export const HeroAndBio: React.FC = () => {
             <img
               src="/images/star-3d.png"
               alt="3D Star"
-              className="w-full h-full object-contain drop-shadow-xl"
+              className="w-full h-full object-contain drop-shadow-lg"
             />
           </motion.div>
 
           {/* Floating 3D Glossy Lightning Bolt (Bottom-Right of ENGINEER) */}
           <motion.div
-            className="absolute -bottom-4 sm:-bottom-8 md:-bottom-10 right-2 sm:right-6 md:right-12 lg:right-20 xl:right-28 w-12 sm:w-16 md:w-24 lg:w-32 aspect-square pointer-events-none select-none z-30"
+            className="absolute -bottom-3 sm:-bottom-5 md:-bottom-7 right-2 sm:right-6 md:right-12 lg:right-16 w-10 sm:w-14 md:w-18 lg:w-22 aspect-square pointer-events-none select-none z-30"
             animate={{
-              y: [0, 10, 0],
-              rotate: [0, -6, 0],
+              y: [0, 8, 0],
+              rotate: [0, -5, 0],
             }}
             transition={{
               duration: 5,
@@ -172,23 +171,23 @@ export const HeroAndBio: React.FC = () => {
             <img
               src="/images/lightning-3d.png"
               alt="3D Lightning"
-              className="w-full h-full object-contain drop-shadow-xl"
+              className="w-full h-full object-contain drop-shadow-lg"
             />
           </motion.div>
 
-          {/* Massive Two-Line Centered Heading */}
-          <h1 className="font-display font-black text-[13.5vw] sm:text-[13vw] md:text-[12vw] lg:text-[10rem] xl:text-[11.8rem] 2xl:text-[13.5rem] tracking-tight leading-[0.84] text-[#111111] uppercase select-none text-center">
+          {/* Refined, Slightly Smaller Two-Line Centered Heading */}
+          <h1 className="font-display font-black text-[11vw] sm:text-[10vw] md:text-[8.5vw] lg:text-[6.8rem] xl:text-[8rem] 2xl:text-[8.8rem] tracking-tight leading-[0.88] text-[#111111] uppercase select-none text-center">
             <span className="block">SOFTWARE</span>
             <span className="block">ENGINEER</span>
           </h1>
         </div>
 
         {/* Bottom Metadata Bar */}
-        <div className="w-full max-w-[1440px] mx-auto flex items-end justify-between pointer-events-auto">
-          <div className="font-display font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#111111] tracking-tight">
+        <div className="w-full max-w-[1180px] mx-auto px-6 sm:px-10 flex items-end justify-between pointer-events-auto">
+          <div className="font-display font-bold text-3xl sm:text-4xl md:text-[58px] leading-none tracking-[-1.44px] text-[#111111]">
             &copy;2026
           </div>
-          <div className="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#111111]/80 font-medium">
+          <div className="type-caption uppercase tracking-widest text-[#111111]/80">
             /CREATING SINCE 2020
           </div>
         </div>
@@ -196,22 +195,22 @@ export const HeroAndBio: React.FC = () => {
 
       {/* 
         Stage 2: Bio Viewport (Second 100vh)
-        Reveals the Hey! introduction and Get Started CTA alongside the flipped card.
+        Aligned inside the 1180px container.
       */}
       <div
         id="bio-section"
-        className="relative min-h-screen w-full flex items-center justify-center px-6 sm:px-12 md:px-16 py-24 z-20"
+        className="relative min-h-screen w-full flex items-center justify-center py-24 z-20"
       >
         <motion.div
           style={{ opacity: bioOpacity, y: bioY }}
-          className="w-full max-w-[1240px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+          className="w-full max-w-[1180px] mx-auto px-6 sm:px-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
         >
           {/* Left Column: Title & Hook */}
           <div className="lg:col-span-5 space-y-4">
-            <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-[#111111] tracking-tight">
+            <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
               Hey!
             </h2>
-            <p className="font-display font-medium text-lg sm:text-xl text-[#111111] leading-relaxed">
+            <p className="type-body-22 text-lg sm:text-xl leading-[1.40] tracking-[-0.88px] text-[#111111]">
               I’m <strong className="font-bold">Rehan</strong>, a software engineer and builder based in Lahore, building high-quality, production-ready web platforms and interactive design systems.
             </p>
           </div>
@@ -221,7 +220,7 @@ export const HeroAndBio: React.FC = () => {
 
           {/* Right Column: Paragraphs & CTA */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="space-y-4 text-sm sm:text-base text-[#111111]/80 leading-relaxed font-sans">
+            <div className="space-y-4 type-body-16-400 text-sm sm:text-base leading-[1.40] tracking-[-0.64px] text-[#111111]/80 font-sans">
               <p>
                 I have a strong focus on building modern, scalable, and conversion-driven web experiences that feel effortless, load instantly, and behave reliably.
               </p>
@@ -247,4 +246,3 @@ export const HeroAndBio: React.FC = () => {
     </div>
   );
 };
-

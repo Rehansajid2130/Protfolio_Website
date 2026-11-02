@@ -6,14 +6,14 @@ import { articles } from '../data/thoughts.ts';
 
 export const Thoughts: React.FC = () => {
   return (
-    <section id="thoughts" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1240px] mx-auto px-6 md:px-10">
+    <section id="thoughts" className="py-24 md:py-36 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
+      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
         {/* Header */}
         <div className="pb-10 border-b border-[#111111]/10 mb-14">
-          <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50 block mb-2">
+          <span className="type-caption text-[#111111]/50 uppercase tracking-widest block mb-2">
             / Insights
           </span>
-          <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#111111]">
+          <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
             Thoughts
           </h2>
         </div>

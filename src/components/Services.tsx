@@ -32,14 +32,14 @@ const services = [
 
 export const Services: React.FC = () => {
   return (
-    <section id="services" className="py-24 md:py-36 bg-[#FAF7F3] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1240px] mx-auto px-6 md:px-10">
+    <section id="services" className="py-24 md:py-36 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
+      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
         {/* Section Header */}
         <div className="pb-10 border-b border-[#111111]/10 mb-8">
-          <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/50 block mb-2">
+          <span className="type-caption text-[#111111]/50 uppercase tracking-widest block mb-2">
             / Capabilities
           </span>
-          <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#111111]">
+          <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
             Services
           </h2>
         </div>
@@ -61,7 +61,7 @@ export const Services: React.FC = () => {
                   /{item.num}
                 </span>
                 <div>
-                  <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-[#111111] group-hover:text-[#0099FF] transition-colors">
+                  <h3 className="font-display font-medium text-2xl sm:text-3xl md:text-[32px] leading-[1.2] tracking-[-0.64px] text-[#111111] group-hover:text-[#0099FF] transition-colors">
                     <RollingText text={item.title} />
                   </h3>
                   <p className="text-sm text-[#111111]/60 font-sans mt-1 max-w-md hidden sm:block">
