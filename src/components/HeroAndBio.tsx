@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionTemplate, useAnimationFrame, useMotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionTemplate, useAnimationFrame } from 'framer-motion';
 import { ArrowUpRightIcon } from './Icons.tsx';
 import { RollingText } from './ui/RollingText.tsx';
 
@@ -109,8 +109,10 @@ export const HeroAndBio: React.FC = () => {
   );
 
   // Mobile transforms:
-  // 1. In Hero: card starts at Y=95px, slides UP behind SOFTWARE ENGINEER (-120px).
-  // 2. In Bio: card dynamically docks into the exact open spacer slot, locking to it so it NEVER sits below it!
+  // 1. In Hero (0 -> 0.14): card starts at Y=95px, slides smoothly UP behind SOFTWARE ENGINEER (-110px).
+  // 2. Transition into Bio (0.14 -> 0.35): card glides into the open spacer position (-20px).
+  // 3. Scrolling through Bio (0.35 -> 1.0): card moves UP in smooth continuous lockstep with the open space
+  //    as the user scrolls (-20px -> -340px), staying inside the open space without jumping or blocking text!
   const mobileHeroOpacity = useTransform(scrollYProgress, [0.16, 0.26], [1, 0]);
   const mobileHeroY = useTransform(scrollYProgress, [0.16, 0.26], [0, -30]);
   const mobileAvatarScale = useTransform(
@@ -118,18 +120,17 @@ export const HeroAndBio: React.FC = () => {
     [0, 0.16, 0.30],
     [0.85, 1.0, 1.0]
   );
-  const mobileY = useMotionValue(95);
-  const mobileHeroYTransform = useTransform(
+  const mobileAvatarY = useTransform(
     scrollYProgress,
-    [0, 0.16, 0.26],
-    [95, -120, 0]
+    [0, 0.12, 0.22, 0.35, 0.65, 0.85, 1.0],
+    [95, -110, -40, -20, -150, -260, -340]
   );
 
   // Active transforms based on screen size
   const activeHeroOpacity = isMobile ? mobileHeroOpacity : desktopHeroOpacity;
   const activeHeroY = isMobile ? mobileHeroY : desktopHeroY;
   const activeAvatarScale = isMobile ? mobileAvatarScale : desktopAvatarScale;
-  const activeAvatarY = isMobile ? mobileY : desktopAvatarY;
+  const activeAvatarY = isMobile ? mobileAvatarY : desktopAvatarY;
 
   // Theme Grayscale: Starts 100% black & white (1), smoothly returns full color (0) as you scroll
   const grayscaleValue = useTransform(scrollYProgress, [0.05, 0.22], [1, 0]);
@@ -139,33 +140,9 @@ export const HeroAndBio: React.FC = () => {
   const bioOpacity = useTransform(scrollYProgress, [0.14, 0.30], [0, 1]);
   const bioY = useTransform(scrollYProgress, [0.14, 0.30], [30, 0]);
 
-  // Real-time 60fps/120fps synchronization on every single render frame:
-  // 1. Keeps the mobile avatar card locked dead-center in the open spacer slot.
-  // 2. Updates the white-text clipPath so letters seamlessly invert as you scroll.
+  // Real-time 60fps/120fps clip-path synchronization on every single render frame:
+  // Updates the white-text overlay clipPath so letters seamlessly invert as you scroll.
   useAnimationFrame(() => {
-    // 1. Mobile card docking into the open space:
-    if (isMobile) {
-      const progress = scrollYProgress.get();
-      if (progress < 0.20) {
-        mobileY.set(mobileHeroYTransform.get());
-      } else if (spacerRef.current) {
-        const spacerRect = spacerRef.current.getBoundingClientRect();
-        // Calculate exact offset from viewport center to spacer center
-        const targetY = (spacerRect.top + spacerRect.height / 2) - (window.innerHeight / 2);
-
-        if (progress < 0.28) {
-          // Smooth blend from Hero transform into the open space
-          const t = (progress - 0.20) / 0.08;
-          const heroVal = mobileHeroYTransform.get();
-          mobileY.set(heroVal * (1 - t) + targetY * t);
-        } else {
-          // 100% locked to the open space
-          mobileY.set(targetY);
-        }
-      }
-    }
-
-    // 2. Real-time clip-path calculation for overlapping text:
     if (!cardRef.current) return;
     const cardRect = cardRef.current.getBoundingClientRect();
 
