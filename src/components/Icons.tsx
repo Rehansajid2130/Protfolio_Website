@@ -3,6 +3,12 @@ import React from 'react';
 // ponytail: Lean 1.5px stroke SVGs per Style Guide Section 9. Zero bundle bloat.
 type IconProps = { size?: number; className?: string; strokeWidth?: number };
 
+export const ArrowLeftIcon: React.FC<IconProps> = ({ size = 16, className = '', strokeWidth = 1.5 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M19 12H5M12 19l-7-7 7-7" />
+  </svg>
+);
+
 export const ArrowUpRightIcon: React.FC<IconProps> = ({ size = 16, className = '', strokeWidth = 1.5 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
     <path d="M7 17L17 7M17 7H7M17 7V17" />

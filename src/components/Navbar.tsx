@@ -6,6 +6,11 @@ interface NavItem {
   href: string;
 }
 
+interface NavbarProps {
+  onNavigateHome?: (anchor?: string) => void;
+  isProjectDetail?: boolean;
+}
+
 const navItems: NavItem[] = [
   { label: 'About Me', href: '#bio-section' },
   { label: 'Services', href: '#services' },
@@ -13,7 +18,7 @@ const navItems: NavItem[] = [
   { label: 'Contact', href: '#contact' },
 ];
 
-export const Navbar: React.FC = () => {
+export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
 
@@ -41,6 +46,10 @@ export const Navbar: React.FC = () => {
 
   const handleLinkClick = (href: string) => {
     setIsOpen(false);
+    if (isProjectDetail && onNavigateHome) {
+      onNavigateHome(href);
+      return;
+    }
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
@@ -68,7 +77,13 @@ export const Navbar: React.FC = () => {
           {/* Logo */}
           <a
             href="#hero-section"
-            onClick={() => setIsOpen(false)}
+            onClick={(e) => {
+              setIsOpen(false);
+              if (isProjectDetail && onNavigateHome) {
+                e.preventDefault();
+                onNavigateHome('#hero-section');
+              }
+            }}
             className="font-display font-bold text-xl sm:text-2xl text-[#FAF7F3] tracking-tight hover:opacity-90 transition-opacity"
           >
             Rehan
