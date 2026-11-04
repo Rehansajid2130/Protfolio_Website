@@ -1,13 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionTemplate, useAnimationFrame } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionTemplate, useAnimationFrame, useMotionValue } from 'framer-motion';
 import { ArrowUpRightIcon } from './Icons.tsx';
 import { RollingText } from './ui/RollingText.tsx';
 
 interface BioContentProps {
   isWhite?: boolean;
+  spacerRef?: React.RefObject<HTMLDivElement | null>;
 }
 
-const BioContent: React.FC<BioContentProps> = ({ isWhite }) => (
+const BioContent: React.FC<BioContentProps> = ({ isWhite, spacerRef }) => (
   <div className={`grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 xl:gap-14 items-center justify-items-center ${isWhite ? 'text-white' : 'text-[#111111]'}`}>
     {/* Left Column Box: 'Hey!' at top, intro paragraph at bottom */}
     <div className="w-full max-w-[360px] h-auto lg:h-[470px] flex flex-col justify-between py-1 space-y-8 lg:space-y-0">
@@ -23,8 +24,11 @@ const BioContent: React.FC<BioContentProps> = ({ isWhite }) => (
       </div>
     </div>
 
-    {/* Center Spacer Column (reserves exact space for the sticky portrait card) */}
-    <div className="w-[250px] sm:w-[290px] md:w-[330px] lg:w-[360px] h-[330px] sm:h-[380px] md:h-[430px] lg:h-[470px] flex-shrink-0 pointer-events-none" />
+    {/* Center Spacer Column (reserves exact space for the portrait card) */}
+    <div
+      ref={!isWhite ? spacerRef : undefined}
+      className="w-[250px] sm:w-[290px] md:w-[330px] lg:w-[360px] h-[330px] sm:h-[380px] md:h-[430px] lg:h-[470px] flex-shrink-0 pointer-events-none"
+    />
 
     {/* Right Column Box: Details at top, action buttons at bottom */}
     <div className="w-full max-w-[380px] h-auto lg:h-[470px] flex flex-col justify-between py-1 space-y-6 lg:space-y-0">
@@ -62,6 +66,7 @@ const BioContent: React.FC<BioContentProps> = ({ isWhite }) => (
 export const HeroAndBio: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const spacerRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLDivElement>(null);
   const bioOverlayRef = useRef<HTMLDivElement>(null);
   const heroHeadingRef = useRef<HTMLDivElement>(null);
@@ -104,10 +109,8 @@ export const HeroAndBio: React.FC = () => {
   );
 
   // Mobile transforms:
-  // 1. Avatar card starts at Y=95px at scroll 0, centered comfortably in lower half of screen.
-  // 2. As user scrolls, the card slides UP behind the heading toward Bio.
-  // 3. Any text that passes directly over the card inverts to pure white via GPU clip-path!
-  // 4. Once the card passes through, hero text smoothly fades out into Bio.
+  // 1. In Hero: card starts at Y=95px, slides UP behind SOFTWARE ENGINEER (-120px).
+  // 2. In Bio: card dynamically docks into the exact open spacer slot, locking to it so it NEVER sits below it!
   const mobileHeroOpacity = useTransform(scrollYProgress, [0.16, 0.26], [1, 0]);
   const mobileHeroY = useTransform(scrollYProgress, [0.16, 0.26], [0, -30]);
   const mobileAvatarScale = useTransform(
@@ -115,9 +118,10 @@ export const HeroAndBio: React.FC = () => {
     [0, 0.16, 0.30],
     [0.85, 1.0, 1.0]
   );
-  const mobileAvatarY = useTransform(
+  const mobileY = useMotionValue(95);
+  const mobileHeroYTransform = useTransform(
     scrollYProgress,
-    [0, 0.16, 0.30],
+    [0, 0.16, 0.26],
     [95, -120, 0]
   );
 
@@ -125,7 +129,7 @@ export const HeroAndBio: React.FC = () => {
   const activeHeroOpacity = isMobile ? mobileHeroOpacity : desktopHeroOpacity;
   const activeHeroY = isMobile ? mobileHeroY : desktopHeroY;
   const activeAvatarScale = isMobile ? mobileAvatarScale : desktopAvatarScale;
-  const activeAvatarY = isMobile ? mobileAvatarY : desktopAvatarY;
+  const activeAvatarY = isMobile ? mobileY : desktopAvatarY;
 
   // Theme Grayscale: Starts 100% black & white (1), smoothly returns full color (0) as you scroll
   const grayscaleValue = useTransform(scrollYProgress, [0.05, 0.22], [1, 0]);
@@ -135,10 +139,33 @@ export const HeroAndBio: React.FC = () => {
   const bioOpacity = useTransform(scrollYProgress, [0.14, 0.30], [0, 1]);
   const bioY = useTransform(scrollYProgress, [0.14, 0.30], [30, 0]);
 
-  // Real-time 60fps/120fps clip-path synchronization on every single render frame:
-  // Runs continuously while scrolling so letters smoothly invert to white as you scroll,
-  // without any lag or waiting for scroll to stop!
+  // Real-time 60fps/120fps synchronization on every single render frame:
+  // 1. Keeps the mobile avatar card locked dead-center in the open spacer slot.
+  // 2. Updates the white-text clipPath so letters seamlessly invert as you scroll.
   useAnimationFrame(() => {
+    // 1. Mobile card docking into the open space:
+    if (isMobile) {
+      const progress = scrollYProgress.get();
+      if (progress < 0.20) {
+        mobileY.set(mobileHeroYTransform.get());
+      } else if (spacerRef.current) {
+        const spacerRect = spacerRef.current.getBoundingClientRect();
+        // Calculate exact offset from viewport center to spacer center
+        const targetY = (spacerRect.top + spacerRect.height / 2) - (window.innerHeight / 2);
+
+        if (progress < 0.28) {
+          // Smooth blend from Hero transform into the open space
+          const t = (progress - 0.20) / 0.08;
+          const heroVal = mobileHeroYTransform.get();
+          mobileY.set(heroVal * (1 - t) + targetY * t);
+        } else {
+          // 100% locked to the open space
+          mobileY.set(targetY);
+        }
+      }
+    }
+
+    // 2. Real-time clip-path calculation for overlapping text:
     if (!cardRef.current) return;
     const cardRect = cardRef.current.getBoundingClientRect();
 
@@ -313,7 +340,7 @@ export const HeroAndBio: React.FC = () => {
           className="relative w-full max-w-[1320px] mx-auto px-6 sm:px-10"
         >
           {/* Base Layer: Natural Black Text */}
-          <BioContent isWhite={false} />
+          <BioContent isWhite={false} spacerRef={spacerRef} />
 
           {/* Clipped Overlay Layer: Pure White Text ONLY where the card overlaps (mobile only) */}
           <div
