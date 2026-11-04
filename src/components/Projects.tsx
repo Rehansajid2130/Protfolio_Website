@@ -2,80 +2,84 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRightIcon } from './Icons.tsx';
 import { RollingText } from './ui/RollingText.tsx';
+import { GITHUB_REPO_URL } from '../data/githubActivity.ts';
 
 const projects = [
   {
-    id: 'damas',
-    title: 'Damas',
-    category: 'Agency Web Platform',
-    image: 'https://framerusercontent.com/images/VNXQLcPHw9VbVzy6BDpZ8pUsaU.png?width=1160&height=800',
-    link: '#',
+    id: 'bit3labs',
+    title: 'Bit3Labs',
+    category: 'Web3 & Tech Studio Platform',
+    image: '/images/projects/bit3labs.png',
+    link: 'https://bit3labs.vercel.app',
   },
   {
-    id: 'najm',
-    title: 'Najm',
-    category: 'SaaS Analytics Platform',
-    image: 'https://framerusercontent.com/images/WgEHVRrQs62rgxlzrnXJJ8rr4.png?width=1160&height=800',
-    link: '#',
+    id: 'raya',
+    title: 'Raya Clothing Brand',
+    category: 'E-Commerce & Fashion Storefront',
+    image: '/images/projects/raya.png',
+    link: 'https://raya-navy-alpha.vercel.app',
   },
   {
-    id: 'kavi',
-    title: 'Kavi',
-    category: 'AI Workflow Engine',
-    image: 'https://framerusercontent.com/images/I3azeVtkvdKBGl9TX38tUdXEb0.png?width=1160&height=800',
-    link: '#',
-  },
-  {
-    id: 'sham',
-    title: 'Sham',
-    category: 'Design System & Studio',
-    image: 'https://framerusercontent.com/images/e3DxUGJWqt7CIVVQIA0VZoy09FQ.png?width=1160&height=800',
-    link: '#',
+    id: 'job-fiesta',
+    title: 'Job-Fiesta',
+    category: 'Full-Stack Recruitment Portal',
+    image: '/images/projects/job-fiesta.png',
+    link: 'https://github.com/Rehansajid2130/Job-fiesta_fyp',
   },
 ];
 
 export const Projects: React.FC = () => {
   return (
-    <section id="projects" className="py-24 md:py-36 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
+    <section id="projects" className="py-24 md:py-36 bg-[#f9f6f2] text-[#111111]">
+      <div className="max-w-[1320px] mx-auto px-6 sm:px-10">
         {/* Header row: Featured Projects on left, View All Work button on right */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-10 border-b border-[#111111]/10 gap-6 mb-14">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 sm:mb-16">
           <div>
-            <span className="type-caption text-[#111111]/50 uppercase tracking-widest block mb-2">
-              / Selected Works
-            </span>
             <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
               Featured Projects
             </h2>
           </div>
 
           <a
-            href="https://github.com/rehan-dev"
+            href={GITHUB_REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-[#111111]/20 hover:border-[#111111] hover:bg-[#111111] hover:text-white transition-all duration-200 text-xs font-mono uppercase tracking-wider font-semibold self-start sm:self-auto"
+            className="group inline-flex items-center gap-3 select-none self-start sm:self-auto cursor-pointer"
           >
-            <RollingText text="View All Work" />
-            <div className="w-5 h-5 rounded-full bg-[#111111]/10 group-hover:bg-white/20 flex items-center justify-center transition-transform group-hover:rotate-45">
-              <ArrowUpRightIcon size={11} />
+            <span className="font-sans font-medium text-base sm:text-lg text-[#111111] group-hover:text-[#0099FF] transition-colors">
+              <RollingText text="View All Work" />
+            </span>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#111111] flex items-center justify-center text-white shadow-sm transition-all duration-200 group-hover:bg-[#0099FF]">
+              <ArrowUpRightIcon size={15} className="text-white transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
           </a>
         </div>
 
-        {/* 2-Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+        {/* Projects Grid: Featured Card on top + 2 Supporting Cards side-by-side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14">
           {projects.map((project, idx) => (
-            <motion.div
+            <motion.a
               key={project.id}
-              className="group cursor-pointer flex flex-col justify-between"
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group cursor-pointer flex flex-col justify-between ${
+                idx === 0 ? 'md:col-span-2' : ''
+              }`}
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
             >
               <div>
-                {/* 20px Rounded Image Wrap with Zoom on Hover */}
-                <div className="relative aspect-[16/10] bg-[#111111]/5 rounded-[20px] overflow-hidden border border-[#111111]/10 mb-5">
+                {/* 24px Rounded Image Wrap with Zoom on Hover */}
+                <div
+                  className={`relative ${
+                    idx === 0
+                      ? 'aspect-[16/9] md:aspect-[21/9]'
+                      : 'aspect-[16/10]'
+                  } bg-[#111111]/5 rounded-[24px] overflow-hidden border border-[#111111]/10 mb-5`}
+                >
                   <img
                     src={project.image}
                     alt={project.title}
@@ -95,12 +99,12 @@ export const Projects: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="w-9 h-9 rounded-full border border-[#111111]/20 flex items-center justify-center group-hover:border-[#0099FF] group-hover:bg-[#0099FF] group-hover:text-white transition-all">
-                    <ArrowUpRightIcon size={14} />
+                  <div className="w-10 h-10 rounded-full border border-[#111111]/20 flex items-center justify-center shrink-0 group-hover:border-[#0099FF] group-hover:bg-[#0099FF] group-hover:text-white transition-all duration-200">
+                    <ArrowUpRightIcon size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
       </div>

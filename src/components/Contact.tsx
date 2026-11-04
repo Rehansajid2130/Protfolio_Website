@@ -13,8 +13,8 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 sm:py-28 md:py-32 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
+    <section id="contact" className="py-20 sm:py-28 md:py-32 bg-[#f9f6f2] text-[#111111]">
+      <div className="max-w-[1320px] mx-auto px-6 sm:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-20 items-stretch">
           {/* Left Column: Heading + Subtitle at top, Social icons at bottom */}
           <div className="lg:col-span-6 flex flex-col justify-between py-1">
@@ -69,7 +69,7 @@ export const Contact: React.FC = () => {
           </div>
 
           {/* Right Column: Dark Black Contact Card with Subtle Noise matching screenshot */}
-          <div className="lg:col-span-6 bg-[#141414] text-[#FAF7F3] p-6 sm:p-4 rounded-[20px] border border-white/[0.08] shadow-2xl relative overflow-hidden flex flex-col justify-center">
+          <div className="lg:col-span-5 bg-[#141414] text-[#FAF7F3] p-6 sm:p-4 rounded-[20px] border border-white/[0.08] shadow-2xl relative overflow-hidden flex flex-col justify-center">
             {/* Subtle Film Grain Noise Texture */}
             <div
               className="absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-screen bg-repeat z-0"

@@ -1,189 +1,295 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useMotionTemplate, useAnimationFrame } from 'framer-motion';
 import { ArrowUpRightIcon } from './Icons.tsx';
 import { RollingText } from './ui/RollingText.tsx';
 
+interface BioContentProps {
+  isWhite?: boolean;
+}
+
+const BioContent: React.FC<BioContentProps> = ({ isWhite }) => (
+  <div className={`grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 xl:gap-14 items-center justify-items-center ${isWhite ? 'text-white' : 'text-[#111111]'}`}>
+    {/* Left Column Box: 'Hey!' at top, intro paragraph at bottom */}
+    <div className="w-full max-w-[360px] h-auto lg:h-[470px] flex flex-col justify-between py-1 space-y-8 lg:space-y-0">
+      <div>
+        <h2 className={`font-display font-black text-6xl sm:text-7xl lg:text-[84px] leading-none tracking-[-2px] ${isWhite ? 'text-white' : 'text-[#111111]'}`}>
+          Hey!
+        </h2>
+      </div>
+      <div>
+        <p className={`text-base sm:text-lg lg:text-[18px] leading-[1.42] tracking-[-0.4px] font-medium ${isWhite ? 'text-white' : 'text-[#111111]'}`}>
+          I’m <strong className={`font-bold ${isWhite ? 'text-white' : 'text-[#111111]'}`}>Rehan</strong>, a software engineer and builder based in Lahore, currently building high quality web platforms and interactive systems.
+        </p>
+      </div>
+    </div>
+
+    {/* Center Spacer Column (reserves exact space for the sticky portrait card) */}
+    <div className="w-[250px] sm:w-[290px] md:w-[330px] lg:w-[360px] h-[330px] sm:h-[380px] md:h-[430px] lg:h-[470px] flex-shrink-0 pointer-events-none" />
+
+    {/* Right Column Box: Details at top, action buttons at bottom */}
+    <div className="w-full max-w-[380px] h-auto lg:h-[470px] flex flex-col justify-between py-1 space-y-6 lg:space-y-0">
+      <div className="space-y-4 lg:space-y-5">
+        <p className={`text-sm sm:text-base lg:text-[16px] leading-[1.5] tracking-[-0.3px] font-normal ${isWhite ? 'text-white/90' : 'text-[#111111]/85'}`}>
+          I’m a software engineer with a strong focus on building modern, scalable, and conversion driven web experiences.
+        </p>
+        <p className={`text-sm sm:text-base lg:text-[16px] leading-[1.5] tracking-[-0.3px] font-normal ${isWhite ? 'text-white/90' : 'text-[#111111]/85'}`}>
+          Over the years, I’ve created and shipped multiple SaaS products and custom web platforms used by global customers, helping them launch faster.
+        </p>
+      </div>
+
+      <div className="pt-2 flex items-center gap-3">
+        <a
+          href="#contact"
+          tabIndex={isWhite ? -1 : 0}
+          className={`group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border transition-all duration-200 shadow-sm ${
+            isWhite
+              ? 'border-white/30 bg-white/20 text-white'
+              : 'border-black/15 bg-white/60 hover:bg-white text-[#111111]'
+          }`}
+        >
+          <RollingText text="Get Started" className={isWhite ? 'text-white' : 'text-[#111111]'} />
+          <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
+            isWhite ? 'bg-white/20' : 'bg-black/5 group-hover:bg-black/10'
+          }`}>
+            <ArrowUpRightIcon size={11} className={isWhite ? 'text-white' : 'text-[#111111]'} />
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+);
+
 export const HeroAndBio: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const bioRef = useRef<HTMLDivElement>(null);
+  const bioOverlayRef = useRef<HTMLDivElement>(null);
+  const heroHeadingRef = useRef<HTMLDivElement>(null);
+  const heroOverlayRef = useRef<HTMLDivElement>(null);
+
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
-  // Hero section fade and slide out on scroll
-  const heroOpacity = useTransform(scrollYProgress, [0.05, 0.35], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0.05, 0.35], [0, -40]);
+  // Desktop transforms (untouched)
+  const desktopHeroOpacity = useTransform(scrollYProgress, [0.04, 0.20], [1, 0]);
+  const desktopHeroY = useTransform(scrollYProgress, [0.04, 0.20], [0, -50]);
+  const desktopAvatarZIndex = useTransform(scrollYProgress, [0, 0.03, 0.05], [10, 10, 25]);
+  const desktopAvatarScale = useTransform(
+    scrollYProgress,
+    [0, 0.12, 0.30],
+    [0.72, 1.04, 1.0]
+  );
+  const desktopAvatarY = useTransform(
+    scrollYProgress,
+    [0, 0.10, 0.30],
+    [215, 235, 0]
+  );
 
-  // Avatar 3D card scroll-linked animation
-  // In Hero (0 -> 0.12): centered at bottom, front face visible, scale: 1
-  // Flipping & scaling (0.12 -> 0.6): flips 180deg to back face, scales down, slides into center gap of Bio
-  const avatarRotateY = useTransform(scrollYProgress, [0.12, 0.6], [0, 180]);
-  const avatarScale = useTransform(scrollYProgress, [0.12, 0.6], [1, 0.78]);
-  const avatarY = useTransform(scrollYProgress, [0.12, 0.6], [0, 40]);
+  // Mobile transforms:
+  // 1. Avatar card starts at Y=95px at scroll 0, centered comfortably in lower half of screen.
+  // 2. As user scrolls, the card slides UP behind the heading toward Bio.
+  // 3. Any text that passes directly over the card inverts to pure white via GPU clip-path!
+  // 4. Once the card passes through, hero text smoothly fades out into Bio.
+  const mobileHeroOpacity = useTransform(scrollYProgress, [0.16, 0.26], [1, 0]);
+  const mobileHeroY = useTransform(scrollYProgress, [0.16, 0.26], [0, -30]);
+  const mobileAvatarScale = useTransform(
+    scrollYProgress,
+    [0, 0.16, 0.30],
+    [0.85, 1.0, 1.0]
+  );
+  const mobileAvatarY = useTransform(
+    scrollYProgress,
+    [0, 0.16, 0.30],
+    [95, -120, 0]
+  );
+
+  // Active transforms based on screen size
+  const activeHeroOpacity = isMobile ? mobileHeroOpacity : desktopHeroOpacity;
+  const activeHeroY = isMobile ? mobileHeroY : desktopHeroY;
+  const activeAvatarScale = isMobile ? mobileAvatarScale : desktopAvatarScale;
+  const activeAvatarY = isMobile ? mobileAvatarY : desktopAvatarY;
+
+  // Theme Grayscale: Starts 100% black & white (1), smoothly returns full color (0) as you scroll
+  const grayscaleValue = useTransform(scrollYProgress, [0.05, 0.22], [1, 0]);
+  const themeFilter = useMotionTemplate`grayscale(${grayscaleValue})`;
 
   // Bio section fade and slide in on scroll
-  const bioOpacity = useTransform(scrollYProgress, [0.35, 0.65], [0, 1]);
-  const bioY = useTransform(scrollYProgress, [0.35, 0.65], [40, 0]);
+  const bioOpacity = useTransform(scrollYProgress, [0.14, 0.30], [0, 1]);
+  const bioY = useTransform(scrollYProgress, [0.14, 0.30], [30, 0]);
+
+  // Real-time 60fps/120fps clip-path synchronization on every single render frame:
+  // Runs continuously while scrolling so letters smoothly invert to white as you scroll,
+  // without any lag or waiting for scroll to stop!
+  useAnimationFrame(() => {
+    if (!cardRef.current) return;
+    const cardRect = cardRef.current.getBoundingClientRect();
+
+    // If card is far off-screen, bypass style updates to conserve battery
+    if (cardRect.bottom < -100 || cardRect.top > window.innerHeight + 100) return;
+
+    const radius = window.innerWidth >= 640 ? 28 : 22;
+
+    // Update Bio overlay clip in real-time
+    if (bioRef.current && bioOverlayRef.current) {
+      const bioRect = bioRef.current.getBoundingClientRect();
+      const top = cardRect.top - bioRect.top;
+      const left = cardRect.left - bioRect.left;
+      const bottom = bioRect.bottom - cardRect.bottom;
+      const right = bioRect.right - cardRect.right;
+
+      bioOverlayRef.current.style.clipPath = `inset(${top}px ${right}px ${bottom}px ${left}px round ${radius}px)`;
+    }
+
+    // Update Hero overlay clip in real-time
+    if (heroHeadingRef.current && heroOverlayRef.current) {
+      const heroRect = heroHeadingRef.current.getBoundingClientRect();
+      const top = cardRect.top - heroRect.top;
+      const left = cardRect.left - heroRect.left;
+      const bottom = heroRect.bottom - cardRect.bottom;
+      const right = heroRect.right - cardRect.right;
+
+      heroOverlayRef.current.style.clipPath = `inset(${top}px ${right}px ${bottom}px ${left}px round ${radius}px)`;
+    }
+  });
 
   return (
     <div
       ref={containerRef}
       id="hero-section"
-      className="relative min-h-[200vh] bg-[#f9f6f2] text-[#111111] overflow-clip"
+      className="relative min-h-[160vh] bg-[#f9f6f2] text-[#111111] overflow-clip"
     >
       {/* 
         Sticky Avatar Layer:
-        Anchored horizontally in the center.
-        Shorter, refined proportions to fit cleanly below the centered title.
+        On desktop: starts small, tucked behind heading, pops to front on scroll.
+        On mobile: starts lower down, stays behind heading (z-10 vs z-30), slides UP under the text.
       */}
-      <div className="sticky top-0 h-screen w-full flex items-end justify-center pb-8 sm:pb-10 md:pb-12 pointer-events-none z-10">
+      <motion.div
+        style={{ zIndex: isMobile ? 10 : desktopAvatarZIndex }}
+        className="sticky top-0 h-screen w-full flex items-center justify-center pointer-events-none"
+      >
         <div
-          className="pointer-events-auto relative select-none w-[220px] sm:w-[270px] md:w-[310px] lg:w-[330px] h-[290px] sm:h-[350px] md:h-[390px] lg:h-[415px]"
-          style={{ perspective: 1200 }}
+          className="pointer-events-auto relative select-none w-[250px] sm:w-[290px] md:w-[330px] lg:w-[360px] h-[330px] sm:h-[380px] md:h-[430px] lg:h-[470px]"
         >
           <motion.div
-            className="w-full h-full relative rounded-[24px] sm:rounded-[28px] overflow-hidden shadow-xl border border-black/10 bg-[#111111]"
+            ref={cardRef}
+            className="w-full h-full relative rounded-[22px] sm:rounded-[28px] overflow-hidden shadow-2xl border border-black/10 bg-[#111111]"
             style={{
-              rotateY: avatarRotateY,
-              scale: avatarScale,
-              y: avatarY,
-              transformStyle: 'preserve-3d',
+              scale: activeAvatarScale,
+              y: activeAvatarY,
+              filter: themeFilter,
             }}
           >
-            {/* Front Face: Red Backlit Portrait */}
-            <div
-              className="absolute inset-0 w-full h-full bg-[#111111] overflow-hidden"
-              style={{ backfaceVisibility: 'hidden' }}
-            >
-              <img
-                src="/images/portrait.png"
-                alt="Portrait of Rehan"
-                className="w-full h-full object-cover object-center"
-                loading="eager"
-              />
-              <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-3.5 sm:left-3.5 sm:right-3.5 bg-white/85 backdrop-blur-md rounded-xl p-2 sm:p-2.5 border border-black/5 flex items-center justify-between shadow-sm">
-                <div>
-                  <div className="font-display font-bold text-[11px] sm:text-xs uppercase text-[#111111]">
-                    Rehan
-                  </div>
-                  <div className="font-mono text-[9px] sm:text-[10px] text-[#111111]/70 uppercase tracking-wide">
-                    Lahore, PK &bull; UTC+5
-                  </div>
-                </div>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              </div>
-            </div>
-
-            {/* Back Face: Clean Credentials Card */}
-            <div
-              className="absolute inset-0 w-full h-full bg-[#111111] text-[#FAF7F3] p-5 sm:p-7 flex flex-col justify-between"
-              style={{
-                backfaceVisibility: 'hidden',
-                transform: 'rotateY(180deg)',
-              }}
-            >
-              <div>
-                <div className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[#0099FF] mb-1.5">
-                  / Credentials
-                </div>
-                <h3 className="font-display font-bold text-lg sm:text-xl text-white">
-                  Software Engineer
-                </h3>
-                <p className="text-[11px] sm:text-xs font-mono text-white/60 mt-0.5">
-                  Lahore, PK &bull; Available Worldwide
-                </p>
-              </div>
-
-              <div className="space-y-2 text-[11px] sm:text-xs font-mono text-white/70">
-                <div className="flex justify-between border-b border-white/10 pb-1">
-                  <span>Experience</span>
-                  <span className="text-white font-medium">5+ Years</span>
-                </div>
-                <div className="flex justify-between border-b border-white/10 pb-1">
-                  <span>Stack</span>
-                  <span className="text-white font-medium">React, TS, Node</span>
-                </div>
-                <div className="flex justify-between border-b border-white/10 pb-1">
-                  <span>Focus</span>
-                  <span className="text-white font-medium">Full-Stack &amp; Web</span>
-                </div>
-                <div className="flex justify-between border-b border-white/10 pb-1">
-                  <span>Availability</span>
-                  <span className="text-emerald-400 font-medium">Immediate</span>
-                </div>
-              </div>
-
-              <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-white/40">
-                Crafting digital experiences &rarr;
-              </div>
-            </div>
+            <img
+              src="/images/portrait.png"
+              alt="Portrait of Rehan"
+              className="w-full h-full object-cover object-center"
+              loading="eager"
+            />
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* 
         Stage 1: Hero Viewport (100vh)
-        Centered within the 1180px content area of the 1280px canvas.
+        On mobile: lifted slightly above vertical center, z-30 above avatar card.
+        On desktop: unchanged z-20 and middle-aligned.
       */}
       <motion.div
-        style={{ opacity: heroOpacity, y: heroY }}
-        className="absolute top-0 left-0 right-0 h-screen w-full flex flex-col justify-between pt-24 pb-6 sm:pb-8 md:pb-10 z-20 pointer-events-none"
+        style={{ opacity: activeHeroOpacity, y: activeHeroY }}
+        className="absolute top-0 left-0 right-0 h-screen w-full flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 md:pb-10 z-30 md:z-20 pointer-events-none"
       >
-        {/* Spacer top */}
-        <div className="h-4" />
+        {/* Spacer top: provides comfortable breathing room below dynamic island on mobile */}
+        <div className="h-12 sm:h-16 md:h-4" />
 
-        {/* Centered Headline with Floating 3D Elements */}
-        <div className="relative my-auto flex flex-col items-center justify-center text-center w-full max-w-[1180px] mx-auto px-4 sm:px-8">
-          {/* Floating 3D Glossy Star (Top-Left of SOFTWARE) */}
-          <motion.div
-            className="absolute -top-4 sm:-top-7 md:-top-9 left-2 sm:left-6 md:left-12 lg:left-16 w-12 sm:w-16 md:w-22 lg:w-26 aspect-square pointer-events-none select-none z-30"
-            animate={{
-              y: [0, -8, 0],
-              rotate: [0, 5, 0],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          >
-            <img
-              src="/images/star-3d.png"
-              alt="3D Star"
-              className="w-full h-full object-contain drop-shadow-lg"
-            />
-          </motion.div>
+        {/* Headline with Floating 3D Elements */}
+        <div className="relative mb-auto md:mb-0 md:my-auto flex flex-col items-center justify-center text-center w-full max-w-[1320px] mx-auto px-4 sm:px-8">
+          <div className="relative inline-block">
+            {/* Floating 3D Glossy Element (Top-Left of SOFTWARE) */}
+            <motion.div
+              style={{ filter: themeFilter }}
+              className="absolute -top-3 sm:-top-6 md:-top-10 lg:-top-14 -left-7 sm:-left-10 md:-left-16 lg:-left-20 w-8 sm:w-12 md:w-20 lg:w-28 xl:w-32 aspect-square pointer-events-none select-none z-30"
+              animate={{
+                y: [0, -8, 0],
+                rotate: [0, 6, 0],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            >
+              <img
+                src="/images/star-3d.png"
+                alt="3D Floating Element"
+                className="w-full h-full object-contain drop-shadow-xl"
+              />
+            </motion.div>
 
-          {/* Floating 3D Glossy Lightning Bolt (Bottom-Right of ENGINEER) */}
-          <motion.div
-            className="absolute -bottom-3 sm:-bottom-5 md:-bottom-7 right-2 sm:right-6 md:right-12 lg:right-16 w-10 sm:w-14 md:w-18 lg:w-22 aspect-square pointer-events-none select-none z-30"
-            animate={{
-              y: [0, 8, 0],
-              rotate: [0, -5, 0],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          >
-            <img
-              src="/images/lightning-3d.png"
-              alt="3D Lightning"
-              className="w-full h-full object-contain drop-shadow-lg"
-            />
-          </motion.div>
+            {/* Floating 3D Glossy Element (Bottom-Right of ENGINEER) */}
+            <motion.div
+              style={{ filter: themeFilter }}
+              className="absolute -bottom-2 sm:-bottom-5 md:-bottom-8 lg:-bottom-12 -right-7 sm:-right-10 md:-right-16 lg:-right-20 w-8 sm:w-12 md:w-20 lg:w-28 xl:w-32 aspect-square pointer-events-none select-none z-30"
+              animate={{
+                y: [0, 8, 0],
+                rotate: [0, -6, 0],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            >
+              <img
+                src="/images/lightning-3d.png"
+                alt="3D Floating Element"
+                className="w-full h-full object-contain drop-shadow-xl"
+              />
+            </motion.div>
 
-          {/* Refined, Slightly Smaller Two-Line Centered Heading */}
-          <h1 className="font-display font-black text-[11vw] sm:text-[10vw] md:text-[8.5vw] lg:text-[6.8rem] xl:text-[8rem] 2xl:text-[8.8rem] tracking-tight leading-[0.88] text-[#111111] uppercase select-none text-center">
-            <span className="block">SOFTWARE</span>
-            <span className="block">ENGINEER</span>
-          </h1>
+            {/* Headline Container with Base Black and Clipped White Layers */}
+            <div ref={heroHeadingRef} className="relative">
+              {/* Base Layer: Natural Black Text */}
+              <h1 className="font-display font-black text-[8.8vw] sm:text-[9.5vw] md:text-[10vw] lg:text-[8rem] xl:text-[9.5rem] 2xl:text-[10.5rem] tracking-tight leading-[0.88] uppercase select-none text-center text-[#111111]">
+                <span className="block">SOFTWARE</span>
+                <span className="block">ENGINEER</span>
+              </h1>
+
+              {/* Clipped Overlay Layer: Pure White Text ONLY where card is overlapping (mobile only) */}
+              <div
+                ref={heroOverlayRef}
+                aria-hidden="true"
+                className="absolute inset-0 pointer-events-none select-none z-30 block md:hidden"
+                style={{ clipPath: 'inset(100%)' }}
+              >
+                <h1 className="font-display font-black text-[8.8vw] sm:text-[9.5vw] md:text-[10vw] lg:text-[8rem] xl:text-[9.5rem] 2xl:text-[10.5rem] tracking-tight leading-[0.88] uppercase select-none text-center text-white">
+                  <span className="block">SOFTWARE</span>
+                  <span className="block">ENGINEER</span>
+                </h1>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Metadata Bar */}
-        <div className="w-full max-w-[1180px] mx-auto px-6 sm:px-10 flex items-end justify-between pointer-events-auto">
+        <div className="w-full max-w-[1320px] mx-auto px-6 sm:px-10 flex items-end justify-between pointer-events-auto">
           <div className="font-display font-bold text-3xl sm:text-4xl md:text-[58px] leading-none tracking-[-1.44px] text-[#111111]">
             &copy;2026
           </div>
@@ -194,52 +300,29 @@ export const HeroAndBio: React.FC = () => {
       </motion.div>
 
       {/* 
-        Stage 2: Bio Viewport (Second 100vh)
-        Aligned inside the 1180px container.
+        Stage 2: Bio Viewport
+        Aligned inside the container.
       */}
       <div
         id="bio-section"
-        className="relative min-h-screen w-full flex items-center justify-center py-24 z-20"
+        className="relative min-h-screen w-full flex items-center justify-center py-20 z-20"
       >
         <motion.div
+          ref={bioRef}
           style={{ opacity: bioOpacity, y: bioY }}
-          className="w-full max-w-[1180px] mx-auto px-6 sm:px-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+          className="relative w-full max-w-[1320px] mx-auto px-6 sm:px-10"
         >
-          {/* Left Column: Title & Hook */}
-          <div className="lg:col-span-5 space-y-4">
-            <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
-              Hey!
-            </h2>
-            <p className="type-body-22 text-lg sm:text-xl leading-[1.40] tracking-[-0.88px] text-[#111111]">
-              I’m <strong className="font-bold">Rehan</strong>, a software engineer and builder based in Lahore, building high-quality, production-ready web platforms and interactive design systems.
-            </p>
-          </div>
+          {/* Base Layer: Natural Black Text */}
+          <BioContent isWhite={false} />
 
-          {/* Spacer Column for the Sticky Card in the Center on Desktop */}
-          <div className="hidden lg:block lg:col-span-2" />
-
-          {/* Right Column: Paragraphs & CTA */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="space-y-4 type-body-16-400 text-sm sm:text-base leading-[1.40] tracking-[-0.64px] text-[#111111]/80 font-sans">
-              <p>
-                I have a strong focus on building modern, scalable, and conversion-driven web experiences that feel effortless, load instantly, and behave reliably.
-              </p>
-              <p>
-                Over the years, I’ve created and shipped full-stack SaaS applications, custom client products, and performant web interfaces used by global clients to launch and scale faster.
-              </p>
-            </div>
-
-            <div className="pt-2">
-              <a
-                href="#contact"
-                className="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#111111] text-[#FAF7F3] hover:bg-[#0099FF] transition-colors duration-200 text-xs font-mono uppercase tracking-wider font-semibold"
-              >
-                <RollingText text="Get Started" className="text-white" />
-                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover:rotate-45">
-                  <ArrowUpRightIcon size={12} className="text-white" />
-                </div>
-              </a>
-            </div>
+          {/* Clipped Overlay Layer: Pure White Text ONLY where the card overlaps (mobile only) */}
+          <div
+            ref={bioOverlayRef}
+            aria-hidden="true"
+            className="absolute inset-0 px-6 sm:px-10 pointer-events-none select-none z-30 block md:hidden"
+            style={{ clipPath: 'inset(100%)' }}
+          >
+            <BioContent isWhite={true} />
           </div>
         </motion.div>
       </div>

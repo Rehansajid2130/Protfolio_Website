@@ -1,10 +1,17 @@
 import React from 'react';
+import { useLenis } from 'lenis/react';
 import { RollingText } from './ui/RollingText.tsx';
 import { ArrowUpIcon } from './Icons.tsx';
 
 export const Footer: React.FC = () => {
+  const lenis = useLenis();
+
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (lenis) {
+      lenis.scrollTo(0, { duration: 1.6 });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -15,7 +22,7 @@ export const Footer: React.FC = () => {
         style={{ backgroundImage: `url('/images/noise.png')` }}
       />
 
-      <div className="relative z-10 max-w-[1180px] mx-auto px-6 sm:px-10">
+      <div className="relative z-10 max-w-[1320px] mx-auto px-6 sm:px-10">
         {/* Top footer row */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-16 border-b border-white/[0.08]">
           <div className="md:col-span-5 space-y-4">

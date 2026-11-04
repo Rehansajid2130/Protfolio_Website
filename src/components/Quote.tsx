@@ -45,13 +45,11 @@ export const Quote: React.FC = () => {
     <section
       ref={containerRef}
       id="philosophy"
-      className="relative h-[220vh] bg-[#f9f6f2] border-t border-[#111111]/10"
+      className="relative h-[220vh] bg-[#f9f6f2]"
     >
       <div className="sticky top-0 h-screen w-full flex items-center justify-center px-6 sm:px-10 overflow-hidden">
         <div className="max-w-[840px] mx-auto text-center">
-          <span className="font-mono text-xs uppercase tracking-widest text-[#111111]/40 block mb-6">
-            / Core Philosophy
-          </span>
+
 
           <p className="font-display font-medium text-3xl sm:text-4xl md:text-5xl leading-[1.25] tracking-tight text-[#111111]">
             {words.map((word, i) => (

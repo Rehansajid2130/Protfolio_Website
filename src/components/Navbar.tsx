@@ -56,7 +56,7 @@ export const Navbar: React.FC = () => {
       */}
       <div
         ref={navRef}
-        className="pointer-events-auto bg-[#111111] text-[#FAF7F3] rounded-[26px] px-4 py-2.5 shadow-2xl border border-white/10 select-none overflow-hidden w-[330px] sm:w-[360px]"
+        className="pointer-events-auto bg-[#111111] text-[#FAF7F3] rounded-[18px] px-2 py-3 shadow-2xl border border-white/10 select-none overflow-hidden w-[calc(100vw-32px)] max-w-[330px]"
         style={{
           boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.5)',
           transform: 'translateZ(0)',
@@ -78,7 +78,7 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="w-9 h-9 rounded-xl bg-[#FAF7F3] text-[#111111] flex items-center justify-center cursor-pointer transition-transform duration-150 active:scale-95 focus:outline-none"
+            className="w-11 h-10 rounded-lg bg-[#FAF7F3] text-[#111111] flex items-center justify-center cursor-pointer transition-transform duration-150 active:scale-95 focus:outline-none"
             aria-expanded={isOpen}
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
           >

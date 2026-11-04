@@ -4,13 +4,11 @@ import { testimonials } from '../data/testimonials.ts';
 
 export const Testimonials: React.FC = () => {
   return (
-    <section id="testimonials" className="py-24 md:py-36 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
+    <section id="testimonials" className="py-24 md:py-36 bg-[#f9f6f2] text-[#111111]">
+      <div className="max-w-[1320px] mx-auto px-6 sm:px-10">
         {/* Header */}
         <div className="pb-10 border-b border-[#111111]/10 mb-14">
-          <span className="type-caption text-[#111111]/50 uppercase tracking-widest block mb-2">
-            / Feedback
-          </span>
+
           <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
             Testimonials
           </h2>

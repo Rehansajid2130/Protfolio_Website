@@ -3,16 +3,22 @@ import { motion } from 'framer-motion';
 import { ArrowUpRightIcon } from './Icons.tsx';
 import { RollingText } from './ui/RollingText.tsx';
 import { articles } from '../data/thoughts.ts';
+import ActivityTerrain from './kokonutui/activity-terrain.tsx';
+import {
+  GITHUB_USERNAME,
+  GITHUB_REPO_URL,
+  GITHUB_END_DATE,
+  GITHUB_CONTRIBUTIONS_DATA,
+  GITHUB_TOTAL_CONTRIBUTIONS,
+} from '../data/githubActivity.ts';
 
 export const Thoughts: React.FC = () => {
   return (
-    <section id="thoughts" className="py-24 md:py-36 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
+    <section id="thoughts" className="py-24 md:py-36 bg-[#f9f6f2] text-[#111111]">
+      <div className="max-w-[1320px] mx-auto px-6 sm:px-10">
         {/* Header */}
         <div className="pb-10 border-b border-[#111111]/10 mb-14">
-          <span className="type-caption text-[#111111]/50 uppercase tracking-widest block mb-2">
-            / Insights
-          </span>
+
           <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
             Thoughts
           </h2>
@@ -74,6 +80,38 @@ export const Thoughts: React.FC = () => {
             <RollingText text="Explore Blog" className="text-white" />
             <ArrowUpRightIcon size={12} className="text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
+        </div>
+
+        {/* GitHub Code Velocity & 3D Activity Terrain */}
+        <div className="mt-16 md:mt-24">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <span className="type-caption text-[#111111]/50 uppercase tracking-widest block mb-2">
+                / Code Velocity
+              </span>
+              <h3 className="font-display font-semibold text-3xl sm:text-4xl text-[#111111] tracking-tight">
+                Activity Terrain
+              </h3>
+            </div>
+            <a
+              href={GITHUB_REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 bg-white/70 hover:bg-white text-xs font-mono uppercase tracking-wider text-[#111111] transition-all shadow-sm"
+            >
+              <span>@{GITHUB_USERNAME} on GitHub</span>
+              <ArrowUpRightIcon size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          </div>
+
+          <div className="w-full flex justify-center">
+            <ActivityTerrain
+              data={GITHUB_CONTRIBUTIONS_DATA}
+              endDate={GITHUB_END_DATE}
+              title={`@${GITHUB_USERNAME} • ${GITHUB_TOTAL_CONTRIBUTIONS} Contributions in 2026`}
+              className="w-full max-w-full rounded-[28px] border border-black/10 bg-white/90 backdrop-blur-md shadow-xl p-2 sm:p-5"
+            />
+          </div>
         </div>
       </div>
     </section>

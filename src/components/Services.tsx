@@ -1,44 +1,32 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRightIcon } from './Icons.tsx';
 import { RollingText } from './ui/RollingText.tsx';
 
 const services = [
   {
-    num: '01',
     title: 'Website Migration',
-    categories: ['Web Migration', 'Optimization', 'Performance Rebuild'],
-    description: 'Transforming legacy codebases and designs into blazing-fast modern builds with zero SEO degradation.',
+    categories: ['Web Migration', 'Optimization', 'Framer Rebuild'],
   },
   {
-    num: '02',
+    title: 'Framer Templates',
+    categories: ['Startup', 'Agency', 'SaaS'],
+  },
+  {
     title: 'Web Applications',
-    categories: ['SaaS', 'Startup MVP', 'Full-Stack'],
-    description: 'Engineering scalable, conversion-driven web products with high-end motion and responsive layouts.',
+    categories: ['Full-Stack', 'Interactive UI', 'API Architecture'],
   },
   {
-    num: '03',
     title: 'Frontend Development',
-    categories: ['UI Dev', 'Responsive Layouts', 'Web Performance'],
-    description: 'Building accessible, fluid interfaces with React, TypeScript, and clean modular component architectures.',
-  },
-  {
-    num: '04',
-    title: 'Product Consulting',
-    categories: ['Product Direction', 'Web Strategy', 'Technical Guidance'],
-    description: 'Advising teams on interaction design, frontend architecture, and roadmap execution.',
+    categories: ['React', 'TypeScript', 'Tailwind CSS'],
   },
 ];
 
 export const Services: React.FC = () => {
   return (
-    <section id="services" className="py-24 md:py-36 bg-[#f9f6f2] border-t border-[#111111]/10 text-[#111111]">
-      <div className="max-w-[1180px] mx-auto px-6 sm:px-10">
+    <section id="services" className="py-24 md:py-36 bg-[#f9f6f2] text-[#111111]">
+      <div className="max-w-[1320px] mx-auto px-6 sm:px-10">
         {/* Section Header */}
         <div className="pb-10 border-b border-[#111111]/10 mb-8">
-          <span className="type-caption text-[#111111]/50 uppercase tracking-widest block mb-2">
-            / Capabilities
-          </span>
           <h2 className="font-display font-semibold text-4xl sm:text-5xl md:text-[68px] leading-tight md:leading-none tracking-[-1.36px] text-[#111111]">
             Services
           </h2>
@@ -48,44 +36,34 @@ export const Services: React.FC = () => {
         <div className="divide-y divide-[#111111]/10 border-b border-[#111111]/10">
           {services.map((item, idx) => (
             <motion.div
-              key={item.num}
-              className="py-10 md:py-14 px-4 -mx-4 rounded-2xl transition-colors duration-300 hover:bg-white flex flex-col md:flex-row md:items-center justify-between gap-6 cursor-pointer group"
-              initial={{ opacity: 0, y: 15 }}
+              key={item.title}
+              className="py-8 sm:py-10 md:py-12 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-12 cursor-pointer group"
+              initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{
+                duration: 0.7,
+                delay: idx * 0.18,
+                ease: [0.21, 0.47, 0.32, 0.98],
+              }}
             >
-              {/* Left: Number and Large Bold Title */}
-              <div className="flex items-baseline gap-4 md:gap-8">
-                <span className="font-mono text-xs font-semibold text-[#111111]/40 uppercase tracking-widest">
-                  /{item.num}
-                </span>
-                <div>
-                  <h3 className="font-display font-medium text-2xl sm:text-3xl md:text-[32px] leading-[1.2] tracking-[-0.64px] text-[#111111] group-hover:text-[#0099FF] transition-colors">
-                    <RollingText text={item.title} />
-                  </h3>
-                  <p className="text-sm text-[#111111]/60 font-sans mt-1 max-w-md hidden sm:block">
-                    {item.description}
-                  </p>
-                </div>
+              {/* Left: Service Title */}
+              <div className="shrink-0">
+                <h3 className="font-display font-medium text-2xl sm:text-3xl md:text-[34px] leading-[1.2] tracking-[-0.64px] text-[#111111] group-hover:text-[#0099FF] transition-colors">
+                  <RollingText text={item.title} />
+                </h3>
               </div>
 
-              {/* Right: Dot-connected Categories + Arrow */}
-              <div className="flex items-center gap-6 md:gap-10 self-start md:self-center">
-                <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-mono uppercase tracking-wider text-[#111111]/60">
-                  {item.categories.map((cat, catIdx) => (
-                    <React.Fragment key={cat}>
-                      <span className="hover:text-[#111111] transition-colors">{cat}</span>
-                      {catIdx < item.categories.length - 1 && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#111111] inline-block" />
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-
-                <div className="w-10 h-10 rounded-full border border-[#111111]/20 flex items-center justify-center shrink-0 group-hover:border-[#0099FF] group-hover:bg-[#0099FF] group-hover:text-white transition-all duration-200">
-                  <ArrowUpRightIcon size={16} />
-                </div>
+              {/* Right: Clean Sans-Serif Dot-separated Categories */}
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 font-sans text-sm sm:text-base md:text-[17px] text-[#111111]/50 tracking-[-0.2px]">
+                {item.categories.map((cat, catIdx) => (
+                  <React.Fragment key={cat}>
+                    <span className="hover:text-[#111111] transition-colors">{cat}</span>
+                    {catIdx < item.categories.length - 1 && (
+                      <span className="mx-1 sm:mx-1.5 text-[#111111]/30 select-none">•</span>
+                    )}
+                  </React.Fragment>
+                ))}
               </div>
             </motion.div>
           ))}
@@ -94,4 +72,5 @@ export const Services: React.FC = () => {
     </section>
   );
 };
+
 
