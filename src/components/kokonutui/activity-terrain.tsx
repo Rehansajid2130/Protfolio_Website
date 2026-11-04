@@ -89,6 +89,8 @@ interface Palette {
   accent: Rgb;
   text: string;
   font: string;
+  shadedLevels: string[][];
+  shadedAccent: string[];
 }
 
 const clamp = (v: number, min: number, max: number) =>
@@ -174,14 +176,20 @@ function shade([r, g, b]: Rgb, amount: number) {
   return `rgb(${Math.round(r * k)},${Math.round(g * k)},${Math.round(b * k)})`;
 }
 
+const TONES = [0.22, 0.38, 0];
+
 function readPalette(node: HTMLElement): Palette {
   const style = getComputedStyle(node);
   const read = (name: string) => style.getPropertyValue(name) || "#888888";
+  const levels = [0, 1, 2, 3, 4].map((l) => hexToRgb(read(`--terrain-${l}`)));
+  const accent = hexToRgb(read("--terrain-accent"));
   return {
-    levels: [0, 1, 2, 3, 4].map((l) => hexToRgb(read(`--terrain-${l}`))),
-    accent: hexToRgb(read("--terrain-accent")),
+    levels,
+    accent,
     text: read("--terrain-text"),
     font: style.fontFamily,
+    shadedLevels: levels.map((lvl) => TONES.map((t) => shade(lvl, t))),
+    shadedAccent: TONES.map((t) => shade(accent, t)),
   };
 }
 
@@ -203,11 +211,11 @@ function visibleFaces(
   x0: number,
   z0: number,
   h: number
-): { points: number[][]; tone: number }[] {
+): { points: number[][]; toneIdx: number }[] {
   const x1 = x0 + 1 - GAP;
   const z1 = z0 + 1 - GAP;
   const p = (x: number, y: number, z: number) => project(pose, x, y, z);
-  const faces: { points: number[][]; tone: number }[] = [];
+  const faces: { points: number[][]; toneIdx: number }[] = [];
   const sin = Math.sin(pose.yaw);
   const cos = Math.cos(pose.yaw);
   if (h > 0.02 && pose.pitch > 0.01) {
@@ -215,29 +223,29 @@ function visibleFaces(
     if (cos > 0) {
       faces.push({
         points: [p(x0, 0, z1), p(x1, 0, z1), p(x1, h, z1), p(x0, h, z1)],
-        tone: 0.22,
+        toneIdx: 0,
       });
     } else {
       faces.push({
         points: [p(x0, 0, z0), p(x1, 0, z0), p(x1, h, z0), p(x0, h, z0)],
-        tone: 0.22,
+        toneIdx: 0,
       });
     }
     if (sin > 0.001) {
       faces.push({
         points: [p(x1, 0, z0), p(x1, 0, z1), p(x1, h, z1), p(x1, h, z0)],
-        tone: 0.38,
+        toneIdx: 1,
       });
     } else if (sin < -0.001) {
       faces.push({
         points: [p(x0, 0, z0), p(x0, 0, z1), p(x0, h, z1), p(x0, h, z0)],
-        tone: 0.38,
+        toneIdx: 1,
       });
     }
   }
   faces.push({
     points: [p(x0, h, z0), p(x1, h, z0), p(x1, h, z1), p(x0, h, z1)],
-    tone: 0,
+    toneIdx: 2,
   });
   return faces;
 }
@@ -289,11 +297,12 @@ export default function ActivityTerrain({
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const paletteRef = useRef<Palette | null>(null);
+  const sortBufferRef = useRef<Cell[]>([]);
+  const depthsRef = useRef<Float64Array>(new Float64Array(0));
   const sim = useRef({
-    yaw: 0,
+    yaw: defaultFlat ? 0 : YAW_TERRAIN,
     yawSpeed: 0,
-    // The intro tilts it up from flat once it's on screen.
-    pitch: 0,
+    pitch: defaultFlat ? 0 : PITCH_TERRAIN,
     pitchSpeed: 0,
     pitchTarget: defaultFlat ? 0 : PITCH_TERRAIN,
     bumps: new Float64Array(cells.length),
@@ -315,7 +324,7 @@ export default function ActivityTerrain({
     raf: 0,
     last: 0,
     visible: false,
-    started: false,
+    started: true,
     reduceMotion: false,
   });
   const cellsRef = useRef(cells);
@@ -381,11 +390,24 @@ export default function ActivityTerrain({
   // Back to front: the further a column's base, the earlier it's drawn.
   const ordered = useCallback(
     (p: Pose) => {
+      const list = cellsRef.current;
+      const len = list.length;
+      if (sortBufferRef.current.length !== len) {
+        sortBufferRef.current = [...list];
+        depthsRef.current = new Float64Array(len);
+      }
       const sin = Math.sin(p.yaw);
       const cos = Math.cos(p.yaw);
-      const depth = (c: Cell) =>
-        (c.col + 0.5 - weeks / 2) * sin + (c.row + 0.5 - DAYS / 2) * cos;
-      return [...cellsRef.current].sort((a, b) => depth(a) - depth(b));
+      const depths = depthsRef.current;
+      const halfW = weeks / 2;
+      const halfD = DAYS / 2;
+      for (let i = 0; i < len; i++) {
+        const c = list[i];
+        depths[c.index] = (c.col + 0.5 - halfW) * sin + (c.row + 0.5 - halfD) * cos;
+      }
+      const buf = sortBufferRef.current;
+      buf.sort((a, b) => depths[a.index] - depths[b.index]);
+      return buf;
     },
     [weeks]
   );
@@ -448,24 +470,23 @@ export default function ActivityTerrain({
     ctx.clearRect(0, 0, s.width, s.height);
     drawLabels(ctx, p, p.lift, palette);
     ctx.lineJoin = "round";
-    for (const cell of ordered(p)) {
+    const list = ordered(p);
+    for (let i = 0; i < list.length; i++) {
+      const cell = list[i];
       const h = columnHeight(cell, p.lift);
-      const color =
-        cell.index === s.hovered ? palette.accent : palette.levels[cell.level];
-      for (const face of visibleFaces(
+      const shades =
+        cell.index === s.hovered ? palette.shadedAccent : palette.shadedLevels[cell.level];
+      const faces = visibleFaces(
         p,
         cell.col - weeks / 2,
         cell.row - DAYS / 2,
         h
-      )) {
+      );
+      for (let f = 0; f < faces.length; f++) {
+        const face = faces[f];
         polygon(ctx, face.points);
-        const fill = shade(color, face.tone);
-        ctx.fillStyle = fill;
+        ctx.fillStyle = shades[face.toneIdx];
         ctx.fill();
-        // A hairline in the same colour closes the seams between faces.
-        ctx.strokeStyle = fill;
-        ctx.lineWidth = 0.6;
-        ctx.stroke();
       }
     }
   }, [columnHeight, drawLabels, ordered, pose, weeks]);
@@ -603,7 +624,7 @@ export default function ActivityTerrain({
     const resize = new ResizeObserver(([entry]) => {
       s.width = entry.contentRect.width;
       s.height = entry.contentRect.height;
-      s.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      s.dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.round(s.width * s.dpr);
       canvas.height = Math.round(s.height * s.dpr);
       draw();
@@ -616,11 +637,10 @@ export default function ActivityTerrain({
       if (s.visible) {
         if (!s.started) {
           s.started = true;
-          if (s.pitchTarget > 0) {
-            turnIn();
-          }
+          draw();
+        } else {
+          wake();
         }
-        wake();
       } else if (s.raf) {
         cancelAnimationFrame(s.raf);
         s.raf = 0;
@@ -865,7 +885,7 @@ export default function ActivityTerrain({
       <canvas
         aria-label={`${title}: ${total.toLocaleString("en-US")} contributions over ${weeks} weeks. Use the arrow keys to read each day.`}
         className={cn(
-          "block h-72 sm:h-80 w-full touch-pan-y rounded-b-[24px] sm:rounded-b-[28px] outline-none focus-visible:ring-2 focus-visible:ring-[#0099FF] focus-visible:ring-inset",
+          "block h-72 sm:h-80 w-full touch-pan-y rounded-b-[24px] sm:rounded-b-[28px] outline-none focus-visible:ring-2 focus-visible:ring-[#0099FF] focus-visible:ring-inset transform-gpu",
           dragging ? "cursor-grabbing" : "cursor-grab"
         )}
         onBlur={() => {

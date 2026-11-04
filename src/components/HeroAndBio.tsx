@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionTemplate, useAnimationFrame } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionTemplate, useAnimationFrame, useMotionValue } from 'framer-motion';
 import { ArrowUpRightIcon } from './Icons.tsx';
 import { RollingText } from './ui/RollingText.tsx';
 
@@ -120,17 +120,13 @@ export const HeroAndBio: React.FC = () => {
     [0, 0.16, 0.30],
     [0.85, 1.0, 1.0]
   );
-  const mobileAvatarY = useTransform(
-    scrollYProgress,
-    [0, 0.12, 0.22, 0.35, 0.65, 0.85, 1.0],
-    [95, -110, -40, -20, -150, -260, -340]
-  );
+  const mobileY = useMotionValue(95);
 
   // Active transforms based on screen size
   const activeHeroOpacity = isMobile ? mobileHeroOpacity : desktopHeroOpacity;
   const activeHeroY = isMobile ? mobileHeroY : desktopHeroY;
   const activeAvatarScale = isMobile ? mobileAvatarScale : desktopAvatarScale;
-  const activeAvatarY = isMobile ? mobileAvatarY : desktopAvatarY;
+  const activeAvatarY = isMobile ? mobileY : desktopAvatarY;
 
   // Theme Grayscale: Starts 100% black & white (1), smoothly returns full color (0) as you scroll
   const grayscaleValue = useTransform(scrollYProgress, [0.05, 0.22], [1, 0]);
@@ -140,9 +136,36 @@ export const HeroAndBio: React.FC = () => {
   const bioOpacity = useTransform(scrollYProgress, [0.14, 0.30], [0, 1]);
   const bioY = useTransform(scrollYProgress, [0.14, 0.30], [30, 0]);
 
-  // Real-time 60fps/120fps clip-path synchronization on every single render frame:
-  // Updates the white-text overlay clipPath so letters seamlessly invert as you scroll.
+  // Real-time 60fps/120fps synchronization on every single render frame:
+  // 1. Smoothly animates the mobile card as scrolling happens, landing squarely in the open space.
+  // 2. Updates the white-text overlay clipPath so letters seamlessly invert as you scroll.
   useAnimationFrame(() => {
+    // 1. Mobile card smooth continuous scroll into the open space:
+    if (isMobile) {
+      const progress = scrollYProgress.get();
+      if (progress <= 0.15) {
+        // Hero slide up behind SOFTWARE ENGINEER as user scrolls
+        const t = progress / 0.15;
+        mobileY.set(95 - 205 * t); // smoothly glides from 95 to -110
+      } else if (spacerRef.current) {
+        const spacerRect = spacerRef.current.getBoundingClientRect();
+        // Exact target Y to center the card in the open space
+        const targetY = (spacerRect.top + spacerRect.height / 2) - (window.innerHeight / 2);
+
+        if (progress < 0.65) {
+          // Smooth, gradual transition across the entire Bio scroll (0.15 -> 0.65)
+          // Moves continuously with the scroll rather than jumping directly to the end
+          const t = (progress - 0.15) / 0.50;
+          const heroEndY = -110;
+          mobileY.set(heroEndY * (1 - t) + targetY * t);
+        } else {
+          // Perfectly locked inside the open space
+          mobileY.set(targetY);
+        }
+      }
+    }
+
+    // 2. Real-time clip-path calculation for overlapping text:
     if (!cardRef.current) return;
     const cardRect = cardRef.current.getBoundingClientRect();
 

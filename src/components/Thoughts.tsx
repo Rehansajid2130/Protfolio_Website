@@ -109,7 +109,7 @@ export const Thoughts: React.FC = () => {
               data={GITHUB_CONTRIBUTIONS_DATA}
               endDate={GITHUB_END_DATE}
               title={`@${GITHUB_USERNAME} • ${GITHUB_TOTAL_CONTRIBUTIONS} Contributions in 2026`}
-              className="w-full max-w-full rounded-[28px] border border-black/10 bg-white/90 backdrop-blur-md shadow-xl p-2 sm:p-5"
+              className="w-full max-w-full rounded-[28px] border border-black/10 bg-white/95 shadow-xl p-2 sm:p-5 transform-gpu"
             />
           </div>
         </div>
