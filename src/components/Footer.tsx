@@ -3,6 +3,7 @@ import { useLenis } from 'lenis/react';
 import { RollingText } from './ui/RollingText.tsx';
 import { ArrowUpIcon } from './Icons.tsx';
 
+// ponytail: clean footer without unnecessary slash labels or clutter
 export const Footer: React.FC = () => {
   const lenis = useLenis();
 
@@ -26,9 +27,6 @@ export const Footer: React.FC = () => {
         {/* Top footer row */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-16 border-b border-white/[0.08]">
           <div className="md:col-span-5 space-y-4">
-            <span className="type-caption text-white/50 uppercase tracking-widest block">
-              / Mission
-            </span>
             <p className="font-display font-bold text-2xl md:text-3xl text-white leading-snug">
               Scaling Start-ups for Growth.
             </p>
@@ -38,7 +36,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="md:col-span-3 space-y-3 font-mono text-xs uppercase tracking-wider">
-            <span className="text-white/50 block mb-2">/ Quick links</span>
+            <span className="text-white/50 block mb-2">Quick links</span>
             <div className="flex flex-col space-y-2 text-white/80">
               <a href="#hero-section" className="hover:text-[#0099FF] transition-colors">
                 <RollingText text="Home" />
@@ -60,7 +58,7 @@ export const Footer: React.FC = () => {
 
           <div className="md:col-span-4 space-y-4 font-mono text-xs uppercase tracking-wider flex flex-col justify-between">
             <div>
-              <span className="text-white/50 block mb-2">/ Direct Contact</span>
+              <span className="text-white/50 block mb-2">Direct Contact</span>
               <a
                 href="mailto:rehan.frontend@gmail.com"
                 className="text-sm font-semibold text-white hover:text-[#0099FF] transition-colors"
@@ -90,7 +88,6 @@ export const Footer: React.FC = () => {
         {/* Bottom copyright row */}
         <div className="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono uppercase text-white/40">
           <div>©2026 REHAN &bull; ALL RIGHTS RESERVED</div>
-          <div>POWERED BY CLEAN REACT &amp; ZERO VENDOR LOCK-IN</div>
         </div>
       </div>
     </footer>

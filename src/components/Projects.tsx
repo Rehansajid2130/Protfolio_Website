@@ -67,16 +67,16 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
                     {project.badge}
                   </div>
 
-                  {/* Direct live link button on hover */}
-                  {project.links.live && (
+                  {/* Direct live or repo link button on hover */}
+                  {(project.links.live || project.links.github) && (
                     <a
-                      href={project.links.live}
+                      href={project.links.live || project.links.github}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
                       className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md border border-[#111111]/10 flex items-center justify-center text-[#111111] hover:bg-[#0099FF] hover:text-white transition-all shadow-sm"
-                      title="Open live website in new tab"
-                      aria-label={`Open live website for ${project.title}`}
+                      title={project.links.live ? "Open live website in new tab" : "Open GitHub repository"}
+                      aria-label={`Open ${project.links.live ? "live website" : "GitHub repository"} for ${project.title}`}
                     >
                       <ExternalLinkIcon size={14} />
                     </a>
