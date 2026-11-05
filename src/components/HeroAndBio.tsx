@@ -225,7 +225,7 @@ export const HeroAndBio: React.FC = () => {
             }}
           >
             <img
-              src="/images/portrait.png"
+              src="/images/portrait-animated.gif"
               alt="Portrait of Rehan"
               className="w-full h-full object-cover object-center"
               loading="eager"
