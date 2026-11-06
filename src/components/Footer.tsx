@@ -47,9 +47,6 @@ export const Footer: React.FC = () => {
               <a href="#projects" className="hover:text-[#0099FF] transition-colors">
                 <RollingText text="Works" />
               </a>
-              <a href="#thoughts" className="hover:text-[#0099FF] transition-colors">
-                <RollingText text="Thoughts" />
-              </a>
               <a href="#contact" className="hover:text-[#0099FF] transition-colors">
                 <RollingText text="Contact" />
               </a>
@@ -78,9 +75,9 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Colossal Wordmark: Edge-to-edge typography */}
-        <div className="pt-10 pb-6 text-center overflow-hidden">
-          <div className="font-display font-bold text-[17vw] xl:text-[13rem] leading-[0.90] tracking-[-8.34px] text-[#FAF7F3] select-none uppercase hover:text-[#0099FF] transition-colors duration-500">
+        {/* Colossal Wordmark: Edge-to-edge typography blended seamlessly into the footer */}
+        <div className="pt-12 sm:pt-16 pb-2 text-center overflow-hidden">
+          <div className="font-display font-extrabold text-[22vw] sm:text-[24vw] lg:text-[25vw] leading-[0.80] tracking-[-0.05em] text-white/[0.06] hover:text-white/[0.10] select-none uppercase transition-colors duration-700">
             Rehan
           </div>
         </div>

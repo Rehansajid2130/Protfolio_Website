@@ -43,8 +43,8 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    slug: 'portfolio-go',
-    title: 'Portfolio–Go™',
+    slug: 'portfolio go',
+    title: 'Portfolio Go™',
     category: 'Enterprise ERP & Cloud Studio',
     badge: 'Enterprise Architecture',
     image: '/images/projects/portfolio-go-hero.jpg',
@@ -271,7 +271,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'raya',
-    title: 'Rayé Clothing & Admin Suite',
+    title: 'Rayé',
     category: 'E-Commerce Storefront & Admin Portal',
     badge: 'Storefront & Admin CRM',
     image: '/images/projects/raya-hero.png',
@@ -423,8 +423,8 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'job-fiesta',
-    title: 'Job-Fiesta',
+    slug: 'job fiesta',
+    title: 'Job Fiesta',
     category: 'Full-Stack Recruitment Portal',
     badge: 'Recruitment & Kanban',
     image: '/images/projects/job-fiesta-home.jpg',

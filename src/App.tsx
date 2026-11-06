@@ -7,7 +7,6 @@ import { Quote } from './components/Quote.tsx';
 import { Services } from './components/Services.tsx';
 import { Projects } from './components/Projects.tsx';
 import { Testimonials } from './components/Testimonials.tsx';
-import { Thoughts } from './components/Thoughts.tsx';
 import { Contact } from './components/Contact.tsx';
 import { Footer } from './components/Footer.tsx';
 import { ProjectDetail } from './components/ProjectDetail.tsx';
@@ -127,10 +126,7 @@ export const App: React.FC = () => {
                 {/* 5. Client Testimonials Section */}
                 <Testimonials />
 
-                {/* 6. Editorial Thoughts / Blog Cards */}
-                <Thoughts />
-
-                {/* 7. Let's Talk Contact Form */}
+                {/* 6. Let's Talk Contact Form */}
                 <Contact />
               </>
             )}

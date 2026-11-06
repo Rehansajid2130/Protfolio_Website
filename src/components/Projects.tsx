@@ -43,22 +43,18 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
                 onClick={() => onSelectProject?.(project.slug)}
                 className="relative group cursor-pointer border-b border-[#111111]/15 overflow-hidden transition-colors select-none"
               >
-                {/* Background image preview sliding in from top to bottom - slow and silky smooth */}
+                {/* Background image preview unrolling from top to bottom - clean curtain reveal without any folding or image warping */}
                 <AnimatePresence>
                   {isHovered && (
                     <motion.div
                       key={`bg-${project.slug}`}
-                      initial={{ y: '-100%' }}
-                      animate={{ y: '0%' }}
-                      exit={{ y: '100%' }}
-                      transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+                      initial={{ clipPath: 'inset(0% 0% 100% 0%)' }}
+                      animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
+                      exit={{ clipPath: 'inset(100% 0% 0% 0%)' }}
+                      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                       className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
                     >
-                      <motion.img
-                        initial={{ scale: 1.14, y: '-8%' }}
-                        animate={{ scale: 1.03, y: '0%' }}
-                        exit={{ scale: 1.14, y: '8%' }}
-                        transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+                      <img
                         src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover object-center"
@@ -74,7 +70,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
                   {/* Left: Project Name */}
                   <div className="min-w-0">
                     <h3
-                      className={`font-display font-bold uppercase text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-[1.08] tracking-tight transition-colors duration-500 ease-out ${
+                      className={`font-display font-bold uppercase text-2xl sm:text-3xl md:text-4xl lg:text-[40px] leading-[1.08] tracking-tight transition-colors duration-700 ease-out ${
                         isHovered ? 'text-white' : 'text-[#111111]'
                       }`}
                     >
@@ -85,7 +81,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
                   {/* Middle: Subheading / Description (side-by-side with project name) */}
                   <div className="min-w-0">
                     <p
-                      className={`text-xs sm:text-sm md:text-[15px] font-sans leading-relaxed line-clamp-2 md:line-clamp-3 transition-colors duration-500 ease-out ${
+                      className={`text-xs sm:text-sm md:text-[15px] font-sans leading-relaxed line-clamp-2 md:line-clamp-3 transition-colors duration-700 ease-out ${
                         isHovered ? 'text-white/85' : 'text-[#111111]/70'
                       }`}
                     >
@@ -96,7 +92,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
                   {/* Far-Right: Only 1 Circular Arrow Button */}
                   <div className="shrink-0 flex items-center justify-end">
                     <div
-                      className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center shrink-0 transition-all duration-500 ease-out ${
+                      className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center shrink-0 transition-all duration-700 ease-out ${
                         isHovered
                           ? 'border-white bg-white text-black scale-105 shadow-md'
                           : 'border-[#111111]/25 text-[#111111] group-hover:border-[#111111]'
@@ -104,7 +100,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
                     >
                       <ArrowUpRightIcon
                         size={15}
-                        className="transition-transform duration-500 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        className="transition-transform duration-700 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                       />
                     </div>
                   </div>
