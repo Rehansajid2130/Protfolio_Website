@@ -1,6 +1,4 @@
 import React from 'react';
-import { useLenis } from 'lenis/react';
-import { ArrowUpIcon } from './Icons.tsx';
 
 // ponytail: refined footer perfectly aligned with reference design
 const quickLinks = [
@@ -12,16 +10,6 @@ const quickLinks = [
 ];
 
 export const Footer: React.FC = () => {
-  const lenis = useLenis();
-
-  const scrollToTop = () => {
-    if (lenis) {
-      lenis.scrollTo(0, { duration: 1.6 });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
   return (
     <footer className="relative bg-[#0F0F0F] border-t border-white/[0.08] text-[#FAF7F3] pt-16 sm:pt-20 pb-0 overflow-hidden select-none">
       {/* Subtle Film Grain Noise on Black */}
@@ -32,7 +20,7 @@ export const Footer: React.FC = () => {
 
       <div className="relative z-10 max-w-[1320px] mx-auto px-6 sm:px-10">
         {/* Top footer row matching reference image layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-12 sm:pb-14 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-8 sm:pb-10 items-start">
           {/* Left Column: Heading */}
           <div className="md:col-span-5">
             <h2 className="font-display font-bold text-4xl sm:text-5xl lg:text-[54px] text-white leading-[1.05] tracking-[-0.03em]">
@@ -91,23 +79,10 @@ export const Footer: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* Middle row: copyright and Back to top */}
-        <div className="pt-6 pb-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono uppercase text-white/40">
-          <div>©2026 REHAN &bull; ALL RIGHTS RESERVED</div>
-          <button
-            type="button"
-            onClick={scrollToTop}
-            className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors text-xs font-mono uppercase tracking-wider"
-          >
-            <span>Back to top</span>
-            <ArrowUpIcon size={12} />
-          </button>
-        </div>
       </div>
 
       {/* Colossal Wordmark: Positioned at the very bottom of the footer, showing half of the characters clipped by the bottom edge */}
-      <div className="relative z-10 w-full overflow-hidden flex items-start justify-center h-[10.5vw] sm:h-[11.5vw] lg:h-[12.5vw] select-none pointer-events-none mt-2 sm:mt-4">
+      <div className="relative z-10 w-full overflow-hidden flex items-start justify-center h-[10.5vw] sm:h-[11.5vw] lg:h-[12.5vw] select-none pointer-events-none mt-1 sm:mt-2">
         <div className="font-display font-black text-[22vw] sm:text-[24vw] lg:text-[25vw] leading-[0.76] tracking-[-0.04em] text-[#222222] select-none uppercase pointer-events-none transition-colors duration-700">
           Rehan
         </div>
