@@ -1,9 +1,16 @@
 import React from 'react';
 import { useLenis } from 'lenis/react';
-import { RollingText } from './ui/RollingText.tsx';
 import { ArrowUpIcon } from './Icons.tsx';
 
-// ponytail: clean footer without unnecessary slash labels or clutter
+// ponytail: refined footer perfectly aligned with reference design
+const quickLinks = [
+  { label: 'Home', href: '#hero-section' },
+  { label: 'About Me', href: '#bio-section' },
+  { label: 'Services', href: '#services' },
+  { label: 'Works', href: '#projects' },
+  { label: 'Contact', href: '#contact' },
+];
+
 export const Footer: React.FC = () => {
   const lenis = useLenis();
 
@@ -16,7 +23,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="relative bg-[#141414] border-t border-white/[0.08] text-[#FAF7F3] pt-20 pb-8 overflow-hidden select-none">
+    <footer className="relative bg-[#0F0F0F] border-t border-white/[0.08] text-[#FAF7F3] pt-16 sm:pt-20 pb-0 overflow-hidden select-none">
       {/* Subtle Film Grain Noise on Black */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-screen bg-repeat z-0"
@@ -24,67 +31,85 @@ export const Footer: React.FC = () => {
       />
 
       <div className="relative z-10 max-w-[1320px] mx-auto px-6 sm:px-10">
-        {/* Top footer row */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-16 border-b border-white/[0.08]">
-          <div className="md:col-span-5 space-y-4">
-            <p className="font-display font-bold text-2xl md:text-3xl text-white leading-snug">
-              Scaling Start-ups for Growth.
-            </p>
-            <p className="text-sm text-white/70 font-sans max-w-sm">
-              Building modern, scalable web products driven by clarity, structured component architecture, and speed.
-            </p>
+        {/* Top footer row matching reference image layout */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-12 sm:pb-14 items-start">
+          {/* Left Column: Heading */}
+          <div className="md:col-span-5">
+            <h2 className="font-display font-bold text-4xl sm:text-5xl lg:text-[54px] text-white leading-[1.05] tracking-[-0.03em]">
+              Scaling<br />Start-ups<br />for Growth.
+            </h2>
           </div>
 
-          <div className="md:col-span-3 space-y-3 font-mono text-xs uppercase tracking-wider">
-            <span className="text-white/50 block mb-2">Quick links</span>
-            <div className="flex flex-col space-y-2 text-white/80">
-              <a href="#hero-section" className="hover:text-[#0099FF] transition-colors">
-                <RollingText text="Home" />
-              </a>
-              <a href="#services" className="hover:text-[#0099FF] transition-colors">
-                <RollingText text="Services" />
-              </a>
-              <a href="#projects" className="hover:text-[#0099FF] transition-colors">
-                <RollingText text="Works" />
-              </a>
-              <a href="#contact" className="hover:text-[#0099FF] transition-colors">
-                <RollingText text="Contact" />
-              </a>
+          {/* Middle Column: /Quick links with white capsule badges */}
+          <div className="md:col-span-4 space-y-4">
+            <span className="text-base sm:text-lg font-sans font-medium text-white block">
+              /Quick links
+            </span>
+            <div className="flex flex-wrap gap-2.5 max-w-[310px]">
+              {quickLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="px-4 py-1.5 rounded-[10px] bg-white text-[#111111] text-xs sm:text-sm font-sans font-medium hover:bg-white/90 active:scale-95 transition-all shadow-sm inline-flex items-center justify-center select-none"
+                >
+                  {item.label}
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="md:col-span-4 space-y-4 font-mono text-xs uppercase tracking-wider flex flex-col justify-between">
-            <div>
-              <span className="text-white/50 block mb-2">Direct Contact</span>
+          {/* Right Column: /Contact */}
+          <div className="md:col-span-3 space-y-4">
+            <span className="text-base sm:text-lg font-sans font-medium text-white block">
+              /Contact
+            </span>
+            <div className="space-y-3">
               <a
-                href="mailto:rehan.frontend@gmail.com"
-                className="text-sm font-semibold text-white hover:text-[#0099FF] transition-colors"
+                href="mailto:rehansajid.prof@gmail.com"
+                className="text-sm sm:text-base font-sans font-medium text-white hover:text-white/80 transition-colors block break-all"
               >
-                rehan.frontend@gmail.com
+                rehansajid.prof@gmail.com
               </a>
+              <div className="flex items-center gap-4 text-xs font-mono uppercase text-white/50 pt-1">
+                <a
+                  href="https://github.com/Rehansajid2130"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  GitHub
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/rehan-sajid-499b94317"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  LinkedIn
+                </a>
+              </div>
             </div>
-
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className="inline-flex items-center gap-2 self-start px-4 py-2 rounded-xl border border-white/20 hover:border-white hover:bg-white hover:text-[#111111] transition-all text-xs font-mono uppercase tracking-wider text-white"
-            >
-              <span>Back to top</span>
-              <ArrowUpIcon size={12} />
-            </button>
           </div>
         </div>
 
-        {/* Colossal Wordmark: Edge-to-edge typography blended seamlessly into the footer */}
-        <div className="pt-12 sm:pt-16 pb-2 text-center overflow-hidden">
-          <div className="font-display font-extrabold text-[22vw] sm:text-[24vw] lg:text-[25vw] leading-[0.80] tracking-[-0.05em] text-white/[0.06] hover:text-white/[0.10] select-none uppercase transition-colors duration-700">
-            Rehan
-          </div>
-        </div>
-
-        {/* Bottom copyright row */}
-        <div className="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono uppercase text-white/40">
+        {/* Middle row: copyright and Back to top */}
+        <div className="pt-6 pb-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono uppercase text-white/40">
           <div>©2026 REHAN &bull; ALL RIGHTS RESERVED</div>
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors text-xs font-mono uppercase tracking-wider"
+          >
+            <span>Back to top</span>
+            <ArrowUpIcon size={12} />
+          </button>
+        </div>
+      </div>
+
+      {/* Colossal Wordmark: Positioned at the very bottom of the footer, showing half of the characters clipped by the bottom edge */}
+      <div className="relative z-10 w-full overflow-hidden flex items-start justify-center h-[10.5vw] sm:h-[11.5vw] lg:h-[12.5vw] select-none pointer-events-none mt-2 sm:mt-4">
+        <div className="font-display font-black text-[22vw] sm:text-[24vw] lg:text-[25vw] leading-[0.76] tracking-[-0.04em] text-[#222222] select-none uppercase pointer-events-none transition-colors duration-700">
+          Rehan
         </div>
       </div>
     </footer>

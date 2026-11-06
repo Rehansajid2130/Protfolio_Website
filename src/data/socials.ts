@@ -8,30 +8,18 @@ export interface SocialLink {
 export const socialLinks: SocialLink[] = [
   {
     name: 'GitHub',
-    url: 'https://github.com/rehan-dev',
-    username: 'rehan-dev',
+    url: 'https://github.com/Rehansajid2130',
+    username: 'Rehansajid2130',
   },
   {
     name: 'LinkedIn',
-    url: 'https://linkedin.com/in/rehan-frontend',
-    username: 'rehan-frontend',
-  },
-  {
-    name: 'Fiverr',
-    url: 'https://fiverr.com/rehan_dev',
-    username: 'rehan_dev',
-    platformBadge: 'Level Seller',
-  },
-  {
-    name: 'Freelancer',
-    url: 'https://freelancer.com/u/rehandev',
-    username: 'rehandev',
-    platformBadge: 'Verified',
+    url: 'https://www.linkedin.com/in/rehan-sajid-499b94317',
+    username: 'rehan-sajid-499b94317',
   },
 ];
 
 export const contactDetails = {
-  email: 'rehan.frontend@gmail.com',
+  email: 'rehansajid.prof@gmail.com',
   whatsapp: '+92 300 1234567',
   whatsappUrl: 'https://wa.me/923001234567',
   location: 'Lahore, Pakistan',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircleIcon, XIcon, InstagramIcon, LinkedinIcon, YoutubeIcon } from './Icons.tsx';
+import { CheckCircleIcon, GithubIcon, LinkedinIcon } from './Icons.tsx';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', project: '' });
@@ -27,43 +27,25 @@ export const Contact: React.FC = () => {
               </p>
             </div>
 
-            {/* Bottom Social Media Icon Buttons matching reference */}
+            {/* Bottom Social Media Icon Buttons */}
             <div className="pt-10 lg:pt-0 flex items-center gap-3">
               <a
-                href="https://x.com"
+                href="https://github.com/Rehansajid2130"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="X (Twitter)"
+                aria-label="GitHub"
                 className="w-11 h-11 rounded-[10px] bg-[#E2DCD3] text-[#111111] flex items-center justify-center hover:bg-[#111111] hover:text-[#FAF7F3] active:scale-95 transition-all duration-200"
               >
-                <XIcon size={16} />
+                <GithubIcon size={18} />
               </a>
               <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="w-11 h-11 rounded-[10px] bg-[#E2DCD3] text-[#111111] flex items-center justify-center hover:bg-[#111111] hover:text-[#FAF7F3] active:scale-95 transition-all duration-200"
-              >
-                <InstagramIcon size={18} strokeWidth={2} />
-              </a>
-              <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/rehan-sajid-499b94317"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
                 className="w-11 h-11 rounded-[10px] bg-[#E2DCD3] text-[#111111] flex items-center justify-center hover:bg-[#111111] hover:text-[#FAF7F3] active:scale-95 transition-all duration-200"
               >
                 <LinkedinIcon size={18} />
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube"
-                className="w-11 h-11 rounded-[10px] bg-[#E2DCD3] text-[#111111] flex items-center justify-center hover:bg-[#111111] hover:text-[#FAF7F3] active:scale-95 transition-all duration-200"
-              >
-                <YoutubeIcon size={18} />
               </a>
             </div>
           </div>

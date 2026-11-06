@@ -43,7 +43,7 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    slug: 'portfolio go',
+    slug: 'portfolio-go',
     title: 'Portfolio Go™',
     category: 'Enterprise ERP & Cloud Studio',
     badge: 'Enterprise Architecture',
@@ -423,7 +423,7 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'job fiesta',
+    slug: 'job-fiesta',
     title: 'Job Fiesta',
     category: 'Full-Stack Recruitment Portal',
     badge: 'Recruitment & Kanban',

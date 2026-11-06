@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useLenis } from 'lenis/react';
 import { Project, projects } from '../data/projects.ts';
 import { ArrowUpRightIcon, CheckCircleIcon } from './Icons.tsx';
-import { RollingText } from './ui/RollingText.tsx';
 
 // ponytail: clean, minimal case study view with subtle black borders and transparent container backgrounds
 interface ProjectDetailProps {
@@ -16,30 +16,57 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
   onBack,
   onSelectProject,
 }) => {
+  const lenis = useLenis();
+
   // Find next project to navigate forward easily
   const currentIndex = projects.findIndex((p) => p.slug === project.slug);
   const nextProject = projects[(currentIndex + 1) % projects.length];
 
-  // Scroll to top on project change
+  // Instantly reset Lenis virtual scroll and window scroll to the very top
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [project.slug]);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true, force: true });
+    }
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // Guard against post-render layout shifts: ensure scroll stays at top
+    const timer = setTimeout(() => {
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true, force: true });
+      }
+      window.scrollTo(0, 0);
+    }, 30);
+
+    return () => clearTimeout(timer);
+  }, [project.slug, lenis]);
 
   return (
     <article className="min-h-screen bg-[#f9f6f2] text-[#111111] pb-24 md:pb-36 selection:bg-[#0099FF] selection:text-white">
       {/* Main Content Area: pulled in margins for clean editorial framing */}
       <main className="max-w-[1240px] mx-auto px-6 sm:px-12 md:px-16 lg:px-20 pt-28 sm:pt-36">
-        {/* 1. Project Hero Header */}
+        {/* 1. Project Hero Header with soft blur-to-focus typography fade-in */}
         <section className="mb-12 sm:mb-16">
-          {/* Main Title */}
-          <h1 className="font-display font-bold text-4xl sm:text-6xl md:text-[76px] leading-[1.05] tracking-[-1.5px] text-[#111111] mb-8 sm:mb-10">
-            <RollingText text={project.title} />
-          </h1>
+          {/* Main Title: fluid upwards glide + blur fade-in */}
+          <motion.h1
+            initial={{ opacity: 0, y: 35, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
+            className="font-display font-bold text-4xl sm:text-6xl md:text-[76px] leading-[1.05] tracking-[-1.5px] text-[#111111] mb-8 sm:mb-10"
+          >
+            {project.title}
+          </motion.h1>
 
-          {/* Simple metadata & description layout from reference image */}
+          {/* Simple metadata & description layout: staggered typography reveal */}
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-16 pt-2 pb-2">
             {/* Left: Category / Year / Live Link */}
-            <div className="flex flex-col gap-2 shrink-0">
+            <motion.div
+              initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              className="flex flex-col gap-2 shrink-0"
+            >
               <div className="flex items-center text-xs sm:text-sm text-[#111111]/45 font-sans">
                 <span className="min-w-[140px] sm:min-w-[180px]">Category</span>
                 <span>Year</span>
@@ -80,23 +107,28 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
                   </>
                 ) : null}
               </div>
-            </div>
+            </motion.div>
 
-            {/* Right: Showcase the little description as reference image showed */}
-            <div className="max-w-xl">
+            {/* Right: Subheading / Description with soft blur-to-sharp fade */}
+            <motion.div
+              initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.28 }}
+              className="max-w-xl"
+            >
               <p className="text-base sm:text-lg md:text-[19px] text-[#111111]/85 leading-relaxed font-sans">
                 {project.tagline}
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* 2. Hero Visual Showcase Container - Full Uncropped Image */}
+        {/* 2. Hero Visual Showcase Container - Full Uncropped Image with smooth zoom entrance */}
         <section className="mb-16 sm:mb-24">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 35, scale: 0.98, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.38 }}
             className="rounded-[24px] sm:rounded-[32px] overflow-hidden border border-[#111111]/20 shadow-md bg-[#111111]/[0.02]"
           >
             <img
@@ -108,11 +140,21 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
         </section>
 
         {/* 3. Fast Stats & Metrics Banner */}
-        <section className="mb-16 sm:mb-24">
+        <motion.section
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16 sm:mb-24"
+        >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
             {project.stats.map((stat, idx) => (
-              <div
+              <motion.div
                 key={idx}
+                initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
+                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="p-6 rounded-2xl border border-[#111111]/20 flex flex-col justify-between"
               >
                 <p className="text-xs font-mono uppercase tracking-wider text-[#111111]/50 mb-2">
@@ -126,13 +168,19 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
                     <p className="text-xs text-[#111111]/60 mt-1 font-sans">{stat.note}</p>
                   )}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* 4. Project Overview, Problem & Solution */}
-        <section className="mb-16 sm:mb-24">
+        <motion.section
+          initial={{ opacity: 0, y: 25, filter: 'blur(5px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16 sm:mb-24"
+        >
           <div className="max-w-4xl mb-12">
             <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-[#111111] tracking-tight mb-6">
               About the Project
@@ -145,29 +193,47 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
           {/* Two-Column Problem vs Solution Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {/* The Problem */}
-            <div className="p-8 rounded-[24px] border border-[#111111]/20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="p-8 rounded-[24px] border border-[#111111]/20"
+            >
               <h3 className="font-display font-semibold text-2xl text-[#111111] mb-3">
                 What wasn't working before
               </h3>
               <p className="text-base text-[#111111]/75 leading-relaxed font-sans">
                 {project.caseStudy.problem}
               </p>
-            </div>
+            </motion.div>
 
             {/* The Solution */}
-            <div className="p-8 rounded-[24px] border border-[#111111]/20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+              className="p-8 rounded-[24px] border border-[#111111]/20"
+            >
               <h3 className="font-display font-semibold text-2xl text-[#111111] mb-3">
                 How we solved it
               </h3>
               <p className="text-base text-[#111111]/75 leading-relaxed font-sans">
                 {project.caseStudy.solution}
               </p>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* 5. Key Features & What We Built */}
-        <section className="mb-16 sm:mb-24">
+        <motion.section
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16 sm:mb-24"
+        >
           <div className="max-w-4xl mb-10">
             <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-[#111111] tracking-tight">
               What We Built
@@ -176,8 +242,12 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {project.caseStudy.features.map((feature, idx) => (
-              <div
+              <motion.div
                 key={idx}
+                initial={{ opacity: 0, y: 22, filter: 'blur(4px)' }}
+                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.65, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="p-8 rounded-[24px] border border-[#111111]/20 hover:border-[#111111]/50 transition-colors flex flex-col justify-between"
               >
                 <div>
@@ -191,10 +261,10 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
                     {feature.description}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* Visual Interface Showcase (if project has gallery images) */}
         {project.gallery && project.gallery.length > 0 && (
@@ -210,8 +280,12 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
                   imgSrc.includes('process') ||
                   (project.gallery!.length % 2 !== 0 && idx === 0);
                 return (
-                  <div
+                  <motion.div
                     key={idx}
+                    initial={{ opacity: 0, y: 28, filter: 'blur(6px)' }}
+                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.75, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
                     className={`rounded-[24px] sm:rounded-[28px] overflow-hidden border border-[#111111]/20 shadow-md bg-[#111111]/[0.02] ${
                       isWide ? 'md:col-span-2' : ''
                     }`}
@@ -222,7 +296,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
                       className="w-full h-auto block transition-transform duration-700 ease-out hover:scale-[1.01]"
                       loading="lazy"
                     />
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -230,7 +304,13 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
         )}
 
         {/* 6. System Architecture */}
-        <section className="mb-16 sm:mb-24">
+        <motion.section
+          initial={{ opacity: 0, y: 25, filter: 'blur(5px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16 sm:mb-24"
+        >
           <div className="p-8 sm:p-12 rounded-[28px] border border-[#111111]/20">
             <h2 className="font-display font-semibold text-3xl sm:text-4xl text-[#111111] tracking-tight mb-8">
               System Architecture
@@ -248,10 +328,16 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
               ))}
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* 7. Real Challenges & Smart Solutions */}
-        <section className="mb-16 sm:mb-24">
+        <motion.section
+          initial={{ opacity: 0, y: 25, filter: 'blur(5px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16 sm:mb-24"
+        >
           <div className="max-w-4xl mb-10">
             <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-[#111111] tracking-tight">
               Real Challenges & How We Solved Them
@@ -260,8 +346,12 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
 
           <div className="space-y-6">
             {project.caseStudy.challenges.map((item, idx) => (
-              <div
+              <motion.div
                 key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.65, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="p-8 rounded-[24px] border border-[#111111]/20 grid grid-cols-1 md:grid-cols-2 gap-6 items-start"
               >
                 <div>
@@ -281,13 +371,19 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
                     {item.solution}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* 8. Result & Takeaway */}
-        <section className="mb-16 sm:mb-24">
+        <motion.section
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16 sm:mb-24"
+        >
           <div className="p-8 sm:p-12 rounded-[28px] bg-[#111111] text-white shadow-xl relative overflow-hidden">
             <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-white tracking-tight mb-4">
               The Final Outcome
@@ -302,17 +398,23 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
                 href={project.links.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-[#111111] font-medium hover:bg-[#0099FF] hover:text-white transition-all shadow-md group"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-[#111111] font-medium hover:bg-[#0099FF] hover:text-white transition-all shadow-md group cursor-pointer"
               >
                 <span>Launch Live Project</span>
                 <ArrowUpRightIcon size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
             )}
           </div>
-        </section>
+        </motion.section>
 
         {/* 9. Next Project Navigation Card */}
-        <section className="border-t border-[#111111]/10 pt-16">
+        <motion.section
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="border-t border-[#111111]/10 pt-16"
+        >
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
               <h2 className="font-display font-semibold text-2xl sm:text-3xl text-[#111111]">
@@ -365,7 +467,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
       </main>
     </article>
   );
