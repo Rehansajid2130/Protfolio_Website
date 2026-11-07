@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ReactLenis } from 'lenis/react';
 import 'lenis/dist/lenis.css';
 import { Navbar } from './components/Navbar.tsx';
@@ -199,51 +198,37 @@ export const App: React.FC = () => {
         {/* Centered Master Canvas with refined margins on desktop screens */}
         <div className="w-full max-w-[1440px] mx-auto min-h-screen bg-[#f9f6f2] relative shadow-2xl border-x border-[#111111]/[0.06] overflow-x-clip flex flex-col">
           <main className="flex-1">
-            <AnimatePresence mode="wait">
-              {currentProject ? (
-                /* Dedicated Case Study Detail Page with smooth dissolve */
-                <motion.div
-                  key={`project-${currentProject.slug}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.35, ease: 'easeInOut' }}
-                >
-                  <ProjectDetail
-                    project={currentProject}
-                    onBack={handleBackToProjects}
-                    onSelectProject={handleSelectProject}
-                  />
-                </motion.div>
-              ) : (
-                /* Full Landing Page with smooth dissolve */
-                <motion.div
-                  key="landing-page"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.35, ease: 'easeInOut' }}
-                >
-                  {/* 1. Centered Hero & Bio Section with 3D Avatar Flip & Floating Objects */}
-                  <HeroAndBio />
+            {currentProject ? (
+              /* Dedicated Case Study Detail Page - Instant mount with zero delay */
+              <div key={`project-${currentProject.slug}`}>
+                <ProjectDetail
+                  project={currentProject}
+                  onBack={handleBackToProjects}
+                  onSelectProject={handleSelectProject}
+                />
+              </div>
+            ) : (
+              /* Full Landing Page */
+              <div key="landing-page">
+                {/* 1. Centered Hero & Bio Section with 3D Avatar Flip & Floating Objects */}
+                <HeroAndBio />
 
-                  {/* 2. Scroll-Linked Word Illumination Philosophy Section */}
-                  <Quote />
+                {/* 2. Scroll-Linked Word Illumination Philosophy Section */}
+                <Quote />
 
-                  {/* 3. Horizontal Stack Services Rows */}
-                  <Services />
+                {/* 3. Horizontal Stack Services Rows */}
+                <Services />
 
-                  {/* 4. Featured Projects 2-Column Grid */}
-                  <Projects onSelectProject={handleSelectProject} />
+                {/* 4. Featured Projects 2-Column Grid */}
+                <Projects onSelectProject={handleSelectProject} />
 
-                  {/* 5. Client Testimonials Section */}
-                  <Testimonials />
+                {/* 5. Client Testimonials Section */}
+                <Testimonials />
 
-                  {/* 6. Let's Talk Contact Form */}
-                  <Contact />
-                </motion.div>
-              )}
-            </AnimatePresence>
+                {/* 6. Let's Talk Contact Form */}
+                <Contact />
+              </div>
+            )}
           </main>
 
           {/* Colossal Wordmark Footer */}

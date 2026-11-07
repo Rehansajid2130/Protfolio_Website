@@ -93,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail 
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="w-11 h-10 rounded-lg bg-[#FAF7F3] text-[#111111] flex items-center justify-center cursor-pointer transition-transform duration-150 active:scale-95 focus:outline-none"
+            className="w-11 h-10 rounded-lg bg-[#FAF7F3] text-[#111111] flex items-center justify-center cursor-pointer transition-all duration-200 active:scale-95 focus:outline-none"
             aria-expanded={isOpen}
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
           >
@@ -102,10 +102,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail 
                 // 3 Horizontal Dots
                 <motion.div
                   key="dots"
-                  initial={{ opacity: 0, scale: 0.5, rotate: -90 }}
+                  initial={{ opacity: 0, scale: 0.6, rotate: -70 }}
                   animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  exit={{ opacity: 0, scale: 0.5, rotate: 90 }}
-                  transition={{ duration: 0.16, ease: 'easeOut' }}
+                  exit={{ opacity: 0, scale: 0.6, rotate: 70 }}
+                  transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
                   className="flex items-center justify-center gap-[3px]"
                 >
                   <span className="w-1 h-1 rounded-full bg-[#111111]" />
@@ -116,10 +116,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail 
                 // Cross (✕)
                 <motion.div
                   key="cross"
-                  initial={{ opacity: 0, scale: 0.5, rotate: 90 }}
+                  initial={{ opacity: 0, scale: 0.6, rotate: 70 }}
                   animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  exit={{ opacity: 0, scale: 0.5, rotate: -90 }}
-                  transition={{ duration: 0.16, ease: 'easeOut' }}
+                  exit={{ opacity: 0, scale: 0.6, rotate: -70 }}
+                  transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
                   className="relative w-3.5 h-3.5 flex items-center justify-center"
                 >
                   <span className="absolute w-3.5 h-[1.8px] bg-[#111111] rounded-full rotate-45" />
@@ -130,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail 
           </button>
         </div>
 
-        {/* Expandable Menu Area */}
+        {/* Expandable Menu Area with Smooth Liquid Dynamic Island Animation */}
         <AnimatePresence initial={false}>
           {isOpen && (
             <motion.div
@@ -140,16 +140,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail 
                 height: 'auto',
                 opacity: 1,
                 transition: {
-                  height: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
-                  opacity: { duration: 0.18, delay: 0.05 },
+                  height: { duration: 0.52, ease: [0.16, 1, 0.3, 1] },
+                  opacity: { duration: 0.38, delay: 0.08, ease: 'easeOut' },
                 },
               }}
               exit={{
                 height: 0,
                 opacity: 0,
                 transition: {
-                  height: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
-                  opacity: { duration: 0.12 },
+                  height: { duration: 0.42, ease: [0.16, 1, 0.3, 1] },
+                  opacity: { duration: 0.22, ease: 'easeIn' },
                 },
               }}
               className="overflow-hidden"
@@ -160,25 +160,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail 
                     key={item.label}
                     type="button"
                     onClick={() => handleLinkClick(item.href)}
-                    initial={{ x: -28, opacity: 0 }}
+                    initial={{ x: -24, opacity: 0, filter: 'blur(3px)' }}
                     animate={{
                       x: 0,
                       opacity: 1,
+                      filter: 'blur(0px)',
                       transition: {
-                        duration: 0.25,
-                        delay: 0.05 + idx * 0.04,
-                        ease: [0.22, 1, 0.36, 1],
+                        duration: 0.44,
+                        delay: 0.1 + idx * 0.05,
+                        ease: [0.16, 1, 0.3, 1],
                       },
                     }}
                     exit={{
-                      x: -20,
+                      x: -16,
                       opacity: 0,
-                      transition: { duration: 0.12 },
+                      filter: 'blur(2px)',
+                      transition: {
+                        duration: 0.22,
+                        delay: (navItems.length - 1 - idx) * 0.03,
+                        ease: [0.16, 1, 0.3, 1],
+                      },
                     }}
                     whileHover={{
-                      scale: 1.03,
-                      x: 3,
-                      transition: { duration: 0.12 },
+                      scale: 1.02,
+                      x: 4,
+                      transition: { duration: 0.18, ease: 'easeOut' },
                     }}
                     whileTap={{ scale: 0.97 }}
                     className="w-fit px-4 py-2 rounded-xl bg-[#FAF7F3] text-[#111111] font-display font-medium text-sm tracking-tight text-left shadow-sm hover:bg-white transition-colors"

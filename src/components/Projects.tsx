@@ -57,10 +57,11 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
                       <img
                         src={project.image}
                         alt={project.title}
+                        decoding="async"
                         className="w-full h-full object-cover object-center"
                       />
                       {/* Dark gradient overlay ensures typography is always pure, high-contrast white */}
-                      <div className="absolute inset-0 bg-[#080808]/65 backdrop-blur-[0.5px]" />
+                      <div className="absolute inset-0 bg-[#080808]/65" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -111,10 +112,15 @@ export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
         </div>
       </div>
 
-      {/* Hidden image preloader to ensure instant hover rendering without latency */}
+      {/* Hidden image preloader to ensure instant hover and case study rendering without network latency */}
       <div className="hidden" aria-hidden="true">
         {projects.map((p) => (
-          <img key={`preload-${p.slug}`} src={p.image} alt="" loading="eager" />
+          <React.Fragment key={`preload-${p.slug}`}>
+            <img src={p.image} alt="" loading="eager" decoding="async" />
+            {p.gallery?.map((g, gi) => (
+              <img key={`preload-g-${p.slug}-${gi}`} src={g} alt="" loading="lazy" decoding="async" />
+            ))}
+          </React.Fragment>
         ))}
       </div>
     </section>

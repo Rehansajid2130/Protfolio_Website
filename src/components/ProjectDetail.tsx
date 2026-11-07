@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useLenis } from 'lenis/react';
 import { Project, projects } from '../data/projects.ts';
 import { ArrowUpRightIcon, CheckCircleIcon } from './Icons.tsx';
+import { SoftBlurIn } from './ui/SoftBlurIn.tsx';
 
 // ponytail: clean, minimal case study view with subtle black borders and transparent container backgrounds
 interface ProjectDetailProps {
@@ -46,29 +47,31 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
     <article className="min-h-screen bg-[#f9f6f2] text-[#111111] pb-24 md:pb-36 selection:bg-[#0099FF] selection:text-white">
       {/* Main Content Area: pulled in margins for clean editorial framing */}
       <main className="max-w-[1240px] mx-auto px-6 sm:px-12 md:px-16 lg:px-20 pt-28 sm:pt-36">
-        {/* 1. Project Hero Header with soft blur-to-focus typography fade-in */}
+        {/* 1. Project Hero Header with slow, cinematic Soft Blur In typography reveal */}
         <section className="mb-12 sm:mb-16">
-          {/* Main Title: fluid upwards glide + blur fade-in */}
-          <motion.h1
-            initial={{ opacity: 0, y: 35, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
+          {/* Main Title: Per-character Apple keynote-style Soft Blur In */}
+          <SoftBlurIn
+            as="h1"
+            text={project.title}
+            duration={1.95}
+            stagger={0.038}
+            blur={12}
+            yOffset={22}
             className="font-display font-bold text-4xl sm:text-6xl md:text-[76px] leading-[1.05] tracking-[-1.5px] text-[#111111] mb-8 sm:mb-10"
-          >
-            {project.title}
-          </motion.h1>
+          />
 
-          {/* Simple metadata & description layout: staggered typography reveal */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-16 pt-2 pb-2">
+          {/* Simple metadata & description layout: slow staggered typography reveal */}
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-[10rem] pt-2 pb-2">
             {/* Left: Category / Year / Live Link */}
             <motion.div
-              initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
+              initial={{ opacity: 0, y: 18, filter: 'blur(6px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.16 }}
+              style={{ willChange: 'opacity, transform, filter', transform: 'translateZ(0)' }}
               className="flex flex-col gap-2 shrink-0"
             >
               <div className="flex items-center text-xs sm:text-sm text-[#111111]/45 font-sans">
-                <span className="min-w-[140px] sm:min-w-[180px]">Category</span>
+                <span className="min-w-[140px] sm:min-w-[290px]">Category</span>
                 <span>Year</span>
               </div>
               <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 text-base sm:text-lg text-[#111111] font-normal">
@@ -111,30 +114,41 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
 
             {/* Right: Subheading / Description with soft blur-to-sharp fade */}
             <motion.div
-              initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
+              initial={{ opacity: 0, y: 18, filter: 'blur(6px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.28 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.24 }}
+              style={{ willChange: 'opacity, transform, filter', transform: 'translateZ(0)' }}
               className="max-w-xl"
             >
-              <p className="text-base sm:text-lg md:text-[19px] text-[#111111]/85 leading-relaxed font-sans">
+              <p className="text-base sm:text-lg md:text-[16px] text-[#111111]/85 leading-relaxed font-sans">
                 {project.tagline}
               </p>
             </motion.div>
           </div>
         </section>
 
-        {/* 2. Hero Visual Showcase Container - Full Uncropped Image with smooth zoom entrance */}
+        {/* 2. Hero Visual Showcase Container - Full Uncropped Image with crisp rendering */}
         <section className="mb-16 sm:mb-24">
           <motion.div
-            initial={{ opacity: 0, y: 35, scale: 0.98, filter: 'blur(6px)' }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.38 }}
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1], delay: 0.28 }}
+            style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
             className="rounded-[24px] sm:rounded-[32px] overflow-hidden border border-[#111111]/20 shadow-md bg-[#111111]/[0.02]"
           >
             <img
               src={project.image}
               alt={`${project.title} Preview Showcase`}
-              className="w-full h-auto block transition-transform duration-700 ease-out hover:scale-[1.01]"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="w-full h-auto block select-none"
+              style={{
+                imageRendering: 'auto',
+                WebkitBackfaceVisibility: 'hidden',
+                backfaceVisibility: 'hidden',
+                transform: 'translate3d(0, 0, 0)',
+              }}
             />
           </motion.div>
         </section>
@@ -282,19 +296,26 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
                 return (
                   <motion.div
                     key={idx}
-                    initial={{ opacity: 0, y: 28, filter: 'blur(6px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    initial={{ opacity: 0, y: 22 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-40px' }}
-                    transition={{ duration: 0.75, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className={`rounded-[24px] sm:rounded-[28px] overflow-hidden border border-[#111111]/20 shadow-md bg-[#111111]/[0.02] ${
-                      isWide ? 'md:col-span-2' : ''
-                    }`}
+                    transition={{ duration: 0.75, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+                    className={`rounded-[24px] sm:rounded-[28px] overflow-hidden border border-[#111111]/20 shadow-md bg-[#111111]/[0.02] ${isWide ? 'md:col-span-2' : ''
+                      }`}
                   >
                     <img
                       src={imgSrc}
                       alt={`${project.title} Interface Preview ${idx + 1}`}
-                      className="w-full h-auto block transition-transform duration-700 ease-out hover:scale-[1.01]"
+                      className="w-full h-auto block select-none"
                       loading="lazy"
+                      decoding="async"
+                      style={{
+                        imageRendering: 'auto',
+                        WebkitBackfaceVisibility: 'hidden',
+                        backfaceVisibility: 'hidden',
+                        transform: 'translate3d(0, 0, 0)',
+                      }}
                     />
                   </motion.div>
                 );
@@ -441,7 +462,9 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({
               <img
                 src={nextProject.image}
                 alt={nextProject.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover select-none transition-transform duration-500 group-hover:scale-105"
               />
             </div>
 
