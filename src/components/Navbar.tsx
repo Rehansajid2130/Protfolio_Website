@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLenis } from 'lenis/react';
 
 interface NavItem {
   label: string;
@@ -12,6 +13,7 @@ interface NavbarProps {
 }
 
 const navItems: NavItem[] = [
+  { label: 'Home', href: '#hero-section' },
   { label: 'About Me', href: '#bio-section' },
   { label: 'Services', href: '#services' },
   { label: 'Projects', href: '#projects' },
@@ -21,6 +23,14 @@ const navItems: NavItem[] = [
 export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
+
+  // Expose active Lenis instance for seamless cross-component anchor scrolling
+  useEffect(() => {
+    if (lenis) {
+      (window as any).__lenis = lenis;
+    }
+  }, [lenis]);
 
   // Close when clicking outside
   useEffect(() => {
@@ -50,9 +60,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail 
       onNavigateHome(href);
       return;
     }
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+
+    // Instant jump: immediately show target section without animated scrolling
+    if (lenis) {
+      if (href === '#hero-section') {
+        lenis.scrollTo(0, { immediate: true, force: true });
+      } else {
+        lenis.scrollTo(href, { offset: -20, immediate: true, force: true });
+      }
+    } else {
+      if (href === '#hero-section') {
+        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+      } else {
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'instant' as ScrollBehavior });
+        }
+      }
     }
   };
 
@@ -78,10 +102,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, isProjectDetail 
           <a
             href="#hero-section"
             onClick={(e) => {
+              e.preventDefault();
               setIsOpen(false);
               if (isProjectDetail && onNavigateHome) {
-                e.preventDefault();
                 onNavigateHome('#hero-section');
+                return;
+              }
+              if (lenis) {
+                lenis.scrollTo(0, { immediate: true, force: true });
+              } else {
+                window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
               }
             }}
             className="font-display font-bold text-xl sm:text-2xl text-[#FAF7F3] tracking-tight hover:opacity-90 transition-opacity"

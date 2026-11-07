@@ -241,13 +241,13 @@ export const HeroAndBio: React.FC = () => {
       */}
       <motion.div
         style={{ opacity: activeHeroOpacity, y: activeHeroY }}
-        className="absolute top-0 left-0 right-0 h-screen w-full flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 md:pb-10 z-30 md:z-20 pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-screen w-full flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 md:p-0 z-30 md:z-20 pointer-events-none"
       >
-        {/* Spacer top: provides comfortable breathing room below dynamic island on mobile */}
-        <div className="h-12 sm:h-16 md:h-4" />
+        {/* Spacer top: provides comfortable breathing room below dynamic island on mobile only */}
+        <div className="h-12 sm:h-16 md:hidden" />
 
-        {/* Headline with Floating 3D Elements */}
-        <div className="relative mb-auto md:mb-0 md:my-auto flex flex-col items-center justify-center text-center w-full max-w-[1320px] mx-auto px-4 sm:px-8">
+        {/* Headline with Floating 3D Elements - Absolute dead-center on desktop, unchanged on mobile */}
+        <div className="relative mb-auto md:mb-0 md:absolute md:inset-0 md:flex md:items-center md:justify-center md:m-0 flex flex-col items-center justify-center text-center w-full max-w-[1320px] mx-auto px-4 sm:px-8">
           <div className="relative inline-block">
             {/* Floating 3D Glossy Element (Top-Left of SOFTWARE) */}
             <motion.div
@@ -315,8 +315,8 @@ export const HeroAndBio: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Metadata Bar */}
-        <div className="w-full max-w-[1320px] mx-auto px-6 sm:px-10 flex items-end justify-between pointer-events-auto">
+        {/* Bottom Metadata Bar - Anchored to bottom on desktop so it does not displace the centered headline */}
+        <div className="w-full max-w-[1320px] mx-auto px-6 sm:px-10 flex items-end justify-between pointer-events-auto md:absolute md:bottom-8 md:left-0 md:right-0">
           <div className="font-display font-bold text-3xl sm:text-4xl md:text-[58px] leading-none tracking-[-1.44px] text-[#111111]">
             &copy;2026
           </div>

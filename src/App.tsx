@@ -146,8 +146,13 @@ export const App: React.FC = () => {
     window.history.pushState({}, '', '/#projects');
     setSelectedSlug(null);
     setTimeout(() => {
-      const el = document.getElementById('projects');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      const lenis = (window as any).__lenis;
+      if (lenis) {
+        lenis.scrollTo('#projects', { offset: -20, immediate: true, force: true });
+      } else {
+        const el = document.getElementById('projects');
+        if (el) el.scrollIntoView({ behavior: 'instant' as ScrollBehavior });
+      }
     }, 60);
   }, []);
 
@@ -161,8 +166,17 @@ export const App: React.FC = () => {
     setSelectedSlug(null);
     if (anchor) {
       setTimeout(() => {
-        const el = document.querySelector(anchor);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        const lenis = (window as any).__lenis;
+        if (lenis) {
+          if (anchor === '#hero-section' || anchor === '/') {
+            lenis.scrollTo(0, { immediate: true, force: true });
+          } else {
+            lenis.scrollTo(anchor, { offset: -20, immediate: true, force: true });
+          }
+        } else {
+          const el = document.querySelector(anchor);
+          if (el) el.scrollIntoView({ behavior: 'instant' as ScrollBehavior });
+        }
       }, 60);
     }
   }, []);

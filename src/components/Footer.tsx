@@ -38,6 +38,26 @@ export const Footer: React.FC = () => {
                 <a
                   key={item.label}
                   href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const lenis = (window as any).__lenis;
+                    if (lenis) {
+                      if (item.href === '#hero-section') {
+                        lenis.scrollTo(0, { immediate: true, force: true });
+                      } else {
+                        lenis.scrollTo(item.href, { offset: -20, immediate: true, force: true });
+                      }
+                    } else {
+                      if (item.href === '#hero-section') {
+                        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+                      } else {
+                        const target = document.querySelector(item.href);
+                        if (target) {
+                          target.scrollIntoView({ behavior: 'instant' as ScrollBehavior });
+                        }
+                      }
+                    }
+                  }}
                   className="px-4 py-1.5 rounded-[10px] bg-white text-[#111111] text-xs sm:text-sm font-sans font-medium hover:bg-white/90 active:scale-95 transition-all shadow-sm inline-flex items-center justify-center select-none"
                 >
                   {item.label}
