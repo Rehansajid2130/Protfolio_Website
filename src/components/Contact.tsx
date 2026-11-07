@@ -5,11 +5,53 @@ import { CheckCircleIcon, GithubIcon, LinkedinIcon } from './Icons.tsx';
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', project: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.project) return;
-    setSubmitted(true);
+    if (!formData.name || !formData.email || !formData.project || isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/rehansajid.prof@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          project: formData.project,
+          _subject: `New Portfolio Message from ${formData.name}`,
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        // Fallback: open mail client directly if service is unavailable
+        window.location.href = `mailto:rehansajid.prof@gmail.com?subject=Project Inquiry from ${encodeURIComponent(
+          formData.name
+        )}&body=${encodeURIComponent(
+          formData.project + '\n\nFrom: ' + formData.name + ' (' + formData.email + ')'
+        )}`;
+        setSubmitted(true);
+      }
+    } catch {
+      // In case of adblocker or offline, fallback to mailto
+      window.location.href = `mailto:rehansajid.prof@gmail.com?subject=Project Inquiry from ${encodeURIComponent(
+        formData.name
+      )}&body=${encodeURIComponent(
+        formData.project + '\n\nFrom: ' + formData.name + ' (' + formData.email + ')'
+      )}`;
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -25,6 +67,14 @@ export const Contact: React.FC = () => {
               <p className="font-sans text-base sm:text-lg text-[#111111]/75 leading-relaxed max-w-md">
                 Have a project or need help? Fill out the form, and we&apos;ll get back to you soon.
               </p>
+              <div className="pt-1">
+                <a
+                  href="mailto:rehansajid.prof@gmail.com"
+                  className="inline-flex items-center gap-2 text-sm sm:text-base font-sans font-medium text-[#111111] hover:text-[#111111]/70 underline underline-offset-4 transition-colors"
+                >
+                  rehansajid.prof@gmail.com
+                </a>
+              </div>
             </div>
 
             {/* Bottom Social Media Icon Buttons */}
@@ -72,7 +122,8 @@ export const Contact: React.FC = () => {
                     Message received.
                   </h3>
                   <p className="text-sm text-white/70 max-w-sm mx-auto">
-                    Thank you for reaching out. I will review your requirements and follow up within 24 hours.
+                    Thank you for reaching out. Your message has been sent to{' '}
+                    <span className="text-white font-medium">rehansajid.prof@gmail.com</span>. I will review your requirements and follow up within 24 hours.
                   </p>
                   <button
                     type="button"
@@ -135,7 +186,8 @@ export const Contact: React.FC = () => {
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="rounded-xl bg-[#FAF7F3] text-[#111111] font-display font-semibold text-sm hover:bg-white active:scale-[0.99] transition-all cursor-pointer"
+                      disabled={isSubmitting}
+                      className="rounded-xl bg-[#FAF7F3] text-[#111111] font-display font-semibold text-sm hover:bg-white active:scale-[0.99] transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -143,11 +195,11 @@ export const Contact: React.FC = () => {
                         width: '100%',
                         height: '100%',
                         overflow: 'hidden',
-                        padding: '8px 16px',
+                        padding: '10px 16px',
                         boxSizing: 'border-box',
                       }}
                     >
-                      Submit
+                      {isSubmitting ? 'Sending...' : 'Submit'}
                     </button>
                   </div>
                 </form>

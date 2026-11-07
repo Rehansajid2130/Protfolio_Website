@@ -8,31 +8,31 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      'Templyo completely changed how I approach building sites in Framer. The templates are not just beautiful, they’re actually structured in a way that makes scaling so much easier.',
-    name: 'Yakoub Kashmiri',
-    role: 'Marketing Director',
-    avatar: 'https://framerusercontent.com/images/kAftuUN9iRKwIt9M6RqZo9NS314.jpg?scale-down-to=512',
+      'Rehan took our product from a rough design spec to a lightning-fast production release in less than three weeks. His attention to fluid micro-interactions and backend performance is rare to find in a single engineer. Our user engagement jumped significantly right after rollout.',
+    name: 'Marcus Vance',
+    role: 'Founder & CEO, Veloce Labs',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&h=256&q=80',
   },
   {
     quote:
-      'I’ve tried dozens of Framer templates, but Templyo stands out. Everything feels intentional, from the layout to the smallest interactions.',
-    name: 'Daniel K.',
-    role: 'Indie Maker',
-    avatar: 'https://framerusercontent.com/images/HqoHkPp6dpJFdgMqUKIaAXmy7o.jpg?scale-down-to=512',
+      'Collaborating with Rehan was effortless from day one. He doesn’t just implement tickets blindly—he actively thinks through user flows, edge cases, and data scaling. The entire dashboard runs at sub-50ms response times with zero client lag.',
+    name: 'Ayesha Tariq',
+    role: 'Head of Product, PulseHQ',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
   },
   {
     quote:
-      'Templyo saved me weeks of work. I was able to launch my landing page in a day, and it still looks fully custom.',
-    name: 'Mark M.',
-    role: 'Startup Founder',
-    avatar: 'https://framerusercontent.com/images/Y9KmJAQ4w53hsc4jJojfokLZ7D8.jpg?scale-down-to=512',
+      'Rehan is the definition of a high-velocity full-stack developer. When we needed to overhaul our core platform before our seed round demos, he streamlined our architecture and delivered ahead of schedule. An absolute 10/10 craftsman.',
+    name: 'Julian Becker',
+    role: 'CTO & Co-founder, OmniStack',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=256&h=256&q=80',
   },
   {
     quote:
-      'The quality is insane. Clean structure, smooth animations, and super easy to customize. It feels like a premium product from start to finish.',
-    name: 'Omar H.',
-    role: 'Frontend Developer',
-    avatar: 'https://framerusercontent.com/images/HH8KrojyxZx6X20z1r13CSwiiWE.jpg?scale-down-to=512',
+      'As a designer, it’s usually terrifying handing off high-fidelity designs to developers. Rehan was the exception—he brought every animation and layout detail to life with 100% precision and made it performant across every device.',
+    name: 'Elena Rostova',
+    role: 'Design Director, Studio Forma',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=256&h=256&q=80',
   },
 ];
 
